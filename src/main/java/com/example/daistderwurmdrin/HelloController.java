@@ -141,7 +141,7 @@ public class HelloController {
     }
     // Start a new game
     public void newGame(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(HelloApplication.class.getResource("Game.fxml"));
+        root = FXMLLoader.load(HelloApplication.class.getResource("PigGUI.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setResizable(true);
