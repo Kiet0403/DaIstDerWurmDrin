@@ -67,8 +67,10 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </padding>
       </VBox>
+
    </left>
    <right>
+   
       <VBox fx:id="p2box" spacing="2.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Player 2" />
@@ -93,5 +95,6 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </padding>
       </VBox>
+
    </right>
 </BorderPane>

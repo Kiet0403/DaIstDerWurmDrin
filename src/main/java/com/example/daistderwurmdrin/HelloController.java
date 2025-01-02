@@ -67,7 +67,7 @@ public class HelloController {
     //Loading preset Songs library in Music
     public void initialize() {
         songs = new ArrayList<File>();
-        directory = new File("Music");
+        directory = new File("E:\\MyUni\\3rd_year_FRAUAS\\OOP_Java\\Phase_2\\groupProject\\DaIstDerWurmDrin\\music");
         files = directory.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
