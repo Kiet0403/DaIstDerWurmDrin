@@ -8,13 +8,18 @@ public class Game {
     private com.example.daistderwurmdrin.Die d;
     private Player p1;
     private Player p2;
+//    private Player p3;
+//    private Player p4;
     private Player current;
 
     private boolean p1checkpoint1 = false;
     private boolean p1checkpoint2 = false;
     private boolean p2checkpoint1 = false;
     private boolean p2checkpoint2 = false;
-
+//    private boolean p3checkpoint1 = false;
+//    private boolean p3checkpoint2 = false;
+//    private boolean p4checkpoint1 = false;
+//    private boolean p4checkpoint2 = false;
 
     // Constructor
     public Game(String p1name, String p2name) {
