@@ -2,13 +2,19 @@ package com.example.daistderwurmdrin;
 
 public class Game {
 
-    public static final int MAX_SCORE = 100;
+    public static final int MAX_SCORE = 64;
 
     // Data Fields
     private com.example.daistderwurmdrin.Die d;
     private Player p1;
     private Player p2;
     private Player current;
+
+    private boolean p1checkpoint1 = false;
+    private boolean p1checkpoint2 = false;
+    private boolean p2checkpoint1 = false;
+    private boolean p2checkpoint2 = false;
+
 
     // Constructor
     public Game(String p1name, String p2name) {
@@ -58,10 +64,11 @@ public class Game {
         d.roll();
         int t = d.getTop();
         current.updateTurn(t);
-        if (t == 1) {
-            current.resetTurnScore();
-            switchTurn();
-        }
+        current.saveScore();
+//        if (t == 1) {
+//            current.resetTurnScore();
+//            switchTurn();
+//        }
     }
 
     public void hold() {
@@ -71,6 +78,37 @@ public class Game {
             d.setTop(0);
         }
     }
+
+    public void checkProgress() {
+        if(!p1checkpoint1 &&
+                !p2checkpoint1){
+            if (p1.getTotalScore() >= 0.3 * MAX_SCORE) {
+                System.out.println("Player 1 progress bar reached 30%: true");
+                p1checkpoint1 = true;
+            }
+            if (p2.getTotalScore() >= 0.3 * MAX_SCORE) {
+                System.out.println("Player 2 progress bar reached 30%: true");
+                p2checkpoint1 = true;
+            }
+        }
+        if(!p1checkpoint2 &&
+                !p2checkpoint2){
+            if (p1.getTotalScore() >= 0.7 * MAX_SCORE) {
+                System.out.println("Player 1 progress bar reached 70%: true");
+                p1checkpoint2 = true;
+            }
+            if (p2.getTotalScore() >= 0.7 * MAX_SCORE) {
+                System.out.println("Player 2 progress bar reached 70%: true");
+                p2checkpoint2 = true;
+            }
+        }
+    }
+
+//    public void checkBooster(){
+//        if (p1checkpoint1 = true && p2checkpoint1 = false){
+//
+//        }
+//    }
 
     public static void main(String[] args) {
         Game g = new Game("Mark", "Ryan");

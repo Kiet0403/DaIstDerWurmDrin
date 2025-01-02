@@ -1,9 +1,11 @@
 package com.example.daistderwurmdrin;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,7 +13,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
 
 import java.io.File;
 
@@ -21,35 +22,29 @@ public class PigController {
     Game pig;
 
     // FXML Connections
-    @FXML
-    ImageView dieImage;
+    @FXML ImageView dieImage;
 
-    @FXML
-    Button rollButton;
+    @FXML Button holdButton;
 
-    @FXML
-    Button holdButton;
+    @FXML TextField p1turn;
 
-    @FXML
-    TextField p1turn;
+    @FXML TextField p2turn;
 
-    @FXML
-    TextField p2turn;
+    @FXML TextField p1total;
 
-    @FXML
-    TextField p1total;
+    @FXML TextField p2total;
 
-    @FXML
-    TextField p2total;
+    @FXML VBox p1box;
 
-    @FXML
-    VBox p1box;
+    @FXML VBox p2box;
 
-    @FXML
-    VBox p2box;
+    @FXML Label title;
 
-    @FXML
-    Label title;
+    @FXML ProgressBar progressBar1;
+
+    @FXML ProgressBar progressBar2;
+
+    double progress1, progress2;
 
     private Roller clock;
 
@@ -71,7 +66,6 @@ public class PigController {
                 count++;
                 if (count > MAX_ROLLS) {
                     clock.stop();
-                    disableButtons(false);
                     roll();
                     count = 0;
                 }
@@ -84,6 +78,11 @@ public class PigController {
         clock = new Roller();
         pig = new Game("Player 1", "Player 2");
         updateViews();
+
+        progressBar1.setStyle("-fx-accent: red;");
+        progressBar2.setStyle("-fx-accent: green;");
+
+        holdButton.setDisable(true);
     }
 
     public void updateViews() {
@@ -92,6 +91,17 @@ public class PigController {
         p1total.setText("" + pig.getP1().getTotalScore());
         p2turn.setText("" + pig.getP2().getTurnScore());
         p2total.setText("" + pig.getP2().getTotalScore());
+
+        checkpoints();
+
+        progress1 = (double) pig.getP1().getTotalScore() / 64;
+        progressBar1.setProgress(progress1);
+
+        progress2 = (double) pig.getP2().getTotalScore() / 64;
+        progressBar2.setProgress(progress2);
+
+
+
         if (pig.p1Turn()) {
             p1box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
             p2box.setBackground(null);
@@ -100,35 +110,36 @@ public class PigController {
             p1box.setBackground(null);
         }
         if (pig.gameOver()) {
-            disableButtons(true);
-            title.setText("Game Over! " + pig.getCurrent().getName() + " wins!");
+            holdButton.setDisable(true);
+            //title.setText("Game Over! " + pig.getCurrent().getName() + " wins!");
         }
     }
 
     public void setDieImage(int top) {
         //dieImage.setImage(new Image("pig/resources/Dice" + top + ".png"));
         File f = new File("src/main/resources/Dice" + top + ".png");
-        System.out.println(f.toURI().toString());
         dieImage.setImage(new Image(f.toURI().toString()));
-    }
-
-    public void disableButtons(boolean disable) {
-        rollButton.setDisable(disable);
-        holdButton.setDisable(disable);
     }
 
     public void rollAnimation() {
         clock.start();
-        disableButtons(true);
     }
 
     public void roll() {
         pig.roll();
+        dieImage.setDisable(true);
+        holdButton.setDisable(false);
         updateViews();
     }
 
     public void hold() {
         pig.hold();
+        dieImage.setDisable(false);
+        holdButton.setDisable(true);
         updateViews();
+    }
+
+    public void checkpoints(){
+        pig.checkProgress();
     }
 }
