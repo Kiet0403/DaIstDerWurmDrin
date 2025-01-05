@@ -7,11 +7,11 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -122,11 +122,12 @@
             </VBox>
 
             <ImageView fx:id="dieImage" fitHeight="68.0" fitWidth="100.0" onMouseClicked="#rollAnimation" pickOnBounds="true" preserveRatio="true" />
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
-              <items>
-                  <Button fx:id="holdButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hold" prefHeight="25.0" prefWidth="162.0" text="End turn" />
-              </items>
-            </ToolBar>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="holdButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hold" prefHeight="25.0" prefWidth="94.0" text="End turn" />
+                  <Button fx:id="placeBoosterButton" onAction="#showBoosterWindow" prefHeight="25.0" prefWidth="95.0" text="Place Booster" />
+               </children>
+            </HBox>
         </items>
       </SplitPane>
       <Pane layoutX="224.0" layoutY="54.0" prefHeight="441.0" prefWidth="585.0">
@@ -154,8 +155,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="308.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="164.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="34.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
-            <Button layoutX="10.0" layoutY="90.0" text="Place Booster" onAction="#showBoosterWindow" />
-           
+            
          </children></Pane>
    </children>
 </AnchorPane>

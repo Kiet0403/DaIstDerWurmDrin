@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -188,24 +190,42 @@ public class PigController {
 
     @FXML
     private void showBoosterWindow() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("BoosterWindow.fxml"));
-            Parent root = loader.load();
+        if (pig.checkNumBooster()){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("BoosterWindow.fxml"));
+                Parent root = loader.load();
 
-            BoosterController boosterController = loader.getController();
-            boosterController.setPigController(this);
+                BoosterController boosterController = loader.getController();
+                boosterController.setPigController(this);
 
-            Stage stage = new Stage();
-            stage.setTitle("Place Booster");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Stage stage = new Stage();
+                stage.setTitle("Place Booster");
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("No Boosters Left");
+            alert.setHeaderText(null);
+            alert.setContentText("You have run out of boosters.");
+            alert.showAndWait();            
         }
     }
 
-    public void placeBooster(int targetPlayerIndex, int checkpoint) {
+    private void updateBoosterButton() {
+        if (pig.checkNumBooster()) {
+            placeBoosterButton.setDisable(false);
+        } else {
+            placeBoosterButton.setDisable(true);
+        }
+    }
+
+    public void placeBooster(int targetPlayerIndex, String checkpoint) {
         pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
         updateViews();
     }

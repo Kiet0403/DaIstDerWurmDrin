@@ -120,15 +120,16 @@ public class Game {
         }
     }
 
-    public void gamePlaceBooster(Player currentPlayer, Player targetPlayer, int checkpoint) {
+    public void gamePlaceBooster(Player currentPlayer, Player targetPlayer, String checkpoint) {
         int targetPlayerIndex = players.indexOf(targetPlayer);
         int currPlayerIndex = players.indexOf(currentPlayer);
-        if (currentPlayer.getBoosters() > 0) {
+        if (currentPlayer.getBoosters() > 0 && !currentPlayer.hasUsedCheckpoint(checkpoint)) {
             currentPlayer.useBooster();
-            if (checkpoint == 1) {
+            currentPlayer.usedCheckpoint(checkpoint);
+            if (checkpoint == "1") {
                 // booster1Location[targetPlayerIndex] = currPlayerIndex;
                 booster1Location[currPlayerIndex] = targetPlayerIndex ;
-            } else {
+            } else if (checkpoint == "2") {
                 // booster2Location[targetPlayerIndex] = currPlayerIndex;
                 booster2Location[currPlayerIndex] = targetPlayerIndex ;
             }
@@ -143,22 +144,22 @@ public class Game {
             if (p1.getTotalScore() >= 0.3 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 30%: true");
                 p1checkpoint1 = true;
-                checkBooster(1, 0);
+                checkBoosterAtCheckpoint(1, 0);
             }
             if (p2.getTotalScore() >= 0.3 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 30%: true");
                 p2checkpoint1 = true;
-                checkBooster(1, 1);
+                checkBoosterAtCheckpoint(1, 1);
             }
             if(p3.getTotalScore() >= 0.3 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 30%: true");
                 p3checkpoint1 = true;
-                checkBooster(1, 2);
+                checkBoosterAtCheckpoint(1, 2);
             }
             if(p4.getTotalScore() >= 0.3 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 30%: true");
                 p4checkpoint1 = true;
-                checkBooster(1,3);
+                checkBoosterAtCheckpoint(1,3);
             }
         }
         if(!p1checkpoint2 &&
@@ -168,28 +169,28 @@ public class Game {
             if (p1.getTotalScore() >= 0.7 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 70%: true");
                 p1checkpoint2 = true;
-                checkBooster(2, 0);
+                checkBoosterAtCheckpoint(2, 0);
             }
             if (p2.getTotalScore() >= 0.7 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 70%: true");
                 p2checkpoint2 = true;
-                checkBooster(2,1 );
+                checkBoosterAtCheckpoint(2,1 );
             }
             if(p3.getTotalScore() >= 0.7 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 70%: true");
                 p3checkpoint2 = true;
-                checkBooster(2,2);
+                checkBoosterAtCheckpoint(2,2);
             }
             if(p4.getTotalScore() >= 0.7 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 70%: true");
                 p4checkpoint2 = true;
-                checkBooster(2,3);
+                checkBoosterAtCheckpoint(2,3);
             }
         }
     }
 
     // check boosters of all players
-    public void checkBooster(int checkpoint, int playerIndex) {
+    public void checkBoosterAtCheckpoint(int checkpoint, int playerIndex) {
         if (checkpoint == 1 && !disableBoost1) {
             System.out.println("Checkpoint 1 reached by Player " + (playerIndex + 1));
             for (int i = 0; i < 4; i++) {
@@ -215,18 +216,22 @@ public class Game {
         }
     }
 
+    public boolean checkNumBooster(){
+        return current.hasBoosters();
+    }
+
     public static void main(String[] args) {
         Game g = new Game("Mark", "Ryan", "Alice", "Ella");
         
-        g.gamePlaceBooster(g.getP1(), g.getP4(), 1); // Player 1 places a booster on Player 4's first checkpoint
-        g.gamePlaceBooster(g.getP2(), g.getP3(), 1); // Player 2 places a booster on Player 1's first checkpoint
-        g.gamePlaceBooster(g.getP3(), g.getP2(), 1); // Player 3 places a booster on Player 1's first checkpoint
-        g.gamePlaceBooster(g.getP4(), g.getP1(), 1); // Player 4 places a booster on Player 1's first checkpoint
+        g.gamePlaceBooster(g.getP1(), g.getP4(), "1"); // Player 1 places a booster on Player 4's first checkpoint
+        g.gamePlaceBooster(g.getP2(), g.getP3(), "1"); // Player 2 places a booster on Player 1's first checkpoint
+        g.gamePlaceBooster(g.getP3(), g.getP2(), "1"); // Player 3 places a booster on Player 1's first checkpoint
+        g.gamePlaceBooster(g.getP4(), g.getP1(), "1"); // Player 4 places a booster on Player 1's first checkpoint
 
-        g.gamePlaceBooster(g.getP1(), g.getP4(), 2); // Player 1 places a booster on Player 4's second checkpoint
-        g.gamePlaceBooster(g.getP2(), g.getP3(), 2); // Player 2 places a booster on Player 1's second checkpoint
-        g.gamePlaceBooster(g.getP3(), g.getP2(), 2); // Player 3 places a booster on Player 1's second checkpoint
-        g.gamePlaceBooster(g.getP4(), g.getP1(), 2); // Player 4 places a booster on Player 1's second checkpoint
+        g.gamePlaceBooster(g.getP1(), g.getP4(), "2"); // Player 1 places a booster on Player 4's second checkpoint
+        g.gamePlaceBooster(g.getP2(), g.getP3(), "2"); // Player 2 places a booster on Player 1's second checkpoint
+        g.gamePlaceBooster(g.getP3(), g.getP2(), "2"); // Player 3 places a booster on Player 1's second checkpoint
+        g.gamePlaceBooster(g.getP4(), g.getP1(), "2"); // Player 4 places a booster on Player 1's second checkpoint
 
         System.out.println("Game Start");
         System.out.println(Arrays.toString(g.booster1Location));
