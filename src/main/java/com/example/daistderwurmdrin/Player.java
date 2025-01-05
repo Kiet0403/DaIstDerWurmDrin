@@ -6,12 +6,14 @@ public class Player {
     private String name;
     private int turnScore;
     private int totalScore;
+    private int totalBoosters;
 
     // Constructor
     public Player(String name) {
         this.name = name;
         turnScore = 0;
         totalScore = 0;
+        totalBoosters = 2;
     }
 
     // Accessor Methods
@@ -27,9 +29,19 @@ public class Player {
         return turnScore;
     }
 
+    public int getBoosters() {
+        return totalBoosters;
+    }
+
     // Game Play Methods
     public void resetTurnScore() {
         turnScore = 0;
+    }
+
+    public void useBooster() {
+        if (totalBoosters > 0){
+            totalBoosters--;
+        }
     }
 
     public void updateTurn(int roll) {
@@ -39,6 +51,10 @@ public class Player {
     public void saveScore() {
         totalScore += turnScore;
         resetTurnScore();
+    }
+
+    public void addBonusPoints(int points) {
+        totalScore = totalScore + points;
     }
 
     public static void main(String[] args) {

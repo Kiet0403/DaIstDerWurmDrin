@@ -154,6 +154,8 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="308.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="164.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="34.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
+            <Button layoutX="10.0" layoutY="90.0" text="Place Booster" onAction="#showBoosterWindow" />
+           
          </children></Pane>
    </children>
 </AnchorPane>

@@ -1,9 +1,13 @@
 package com.example.daistderwurmdrin;
 
 import java.io.File;
+import java.io.IOException;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -14,6 +18,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class PigController {
 
@@ -24,6 +30,8 @@ public class PigController {
     @FXML ImageView dieImage;
 
     @FXML Button holdButton;
+
+    @FXML Button placeBoosterButton;
 
     @FXML TextField p1turn;
 
@@ -176,5 +184,29 @@ public class PigController {
 
     public void checkpoints(){
         pig.checkProgress();
+    }
+
+    @FXML
+    private void showBoosterWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("BoosterWindow.fxml"));
+            Parent root = loader.load();
+
+            BoosterController boosterController = loader.getController();
+            boosterController.setPigController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Place Booster");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void placeBooster(int targetPlayerIndex, int checkpoint) {
+        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
+        updateViews();
     }
 }

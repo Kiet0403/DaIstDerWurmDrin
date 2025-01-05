@@ -1,11 +1,13 @@
 package com.example.daistderwurmdrin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Game {
 
     public static final int MAX_SCORE = 64;
+    public static final int BONUS_POINTS = 3;
 
     // Data Fields
     private com.example.daistderwurmdrin.Die d;
@@ -18,6 +20,9 @@ public class Game {
     private int currentPlayerIndex;
     private Player current;
 
+    private boolean disableBoost1 = false;
+    private boolean disableBoost2 = false;
+
     private boolean p1checkpoint1 = false;
     private boolean p1checkpoint2 = false;
     private boolean p2checkpoint1 = false;
@@ -27,6 +32,9 @@ public class Game {
     private boolean p4checkpoint1 = false;
     private boolean p4checkpoint2 = false;
 
+    private Player[] boostersPlaced;
+    private int[] booster1Location;
+    private int[] booster2Location;
 
     // Constructor
     public Game(String p1name, String p2name, String p3name, String p4name) {
@@ -42,6 +50,14 @@ public class Game {
         players.add(p4);
         currentPlayerIndex = 0;        
         current = players.get(currentPlayerIndex);
+
+        booster1Location = new int[4];
+        booster2Location = new int[4];
+
+        Arrays.fill(booster1Location, -1);
+        Arrays.fill(booster2Location, -1);
+
+        // [1, 3, 3, 3]
     }
 
     // Accessor methods
@@ -52,6 +68,10 @@ public class Game {
 
     public Player getCurrent() {
         return current;
+    }
+
+    public Player getTargetPlayer(int index) {
+        return players.get(index);
     }
 
     public Player getP1() {
@@ -90,10 +110,6 @@ public class Game {
         int t = d.getTop();
         current.updateTurn(t);
         current.saveScore();
-//        if (t == 1) {
-//            current.resetTurnScore();
-//            switchTurn();
-//        }
     }
 
     public void hold() {
@@ -101,6 +117,21 @@ public class Game {
         if (!gameOver()) {
             switchTurn();
             d.setTop(0);
+        }
+    }
+
+    public void gamePlaceBooster(Player currentPlayer, Player targetPlayer, int checkpoint) {
+        int targetPlayerIndex = players.indexOf(targetPlayer);
+        int currPlayerIndex = players.indexOf(currentPlayer);
+        if (currentPlayer.getBoosters() > 0) {
+            currentPlayer.useBooster();
+            if (checkpoint == 1) {
+                // booster1Location[targetPlayerIndex] = currPlayerIndex;
+                booster1Location[currPlayerIndex] = targetPlayerIndex ;
+            } else {
+                // booster2Location[targetPlayerIndex] = currPlayerIndex;
+                booster2Location[currPlayerIndex] = targetPlayerIndex ;
+            }
         }
     }
 
@@ -112,64 +143,116 @@ public class Game {
             if (p1.getTotalScore() >= 0.3 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 30%: true");
                 p1checkpoint1 = true;
+                checkBooster(1, 0);
             }
             if (p2.getTotalScore() >= 0.3 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 30%: true");
                 p2checkpoint1 = true;
+                checkBooster(1, 1);
             }
             if(p3.getTotalScore() >= 0.3 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 30%: true");
                 p3checkpoint1 = true;
+                checkBooster(1, 2);
             }
             if(p4.getTotalScore() >= 0.3 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 30%: true");
                 p4checkpoint1 = true;
+                checkBooster(1,3);
             }
         }
-        if(!p1checkpoint1 &&
-                !p2checkpoint1 &&
-                !p3checkpoint1 &&
-                !p4checkpoint1) {
+        if(!p1checkpoint2 &&
+                !p2checkpoint2 &&
+                !p3checkpoint2 &&
+                !p4checkpoint2) {
             if (p1.getTotalScore() >= 0.7 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 70%: true");
                 p1checkpoint2 = true;
+                checkBooster(2, 0);
             }
             if (p2.getTotalScore() >= 0.7 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 70%: true");
                 p2checkpoint2 = true;
+                checkBooster(2,1 );
             }
             if(p3.getTotalScore() >= 0.7 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 70%: true");
                 p3checkpoint2 = true;
+                checkBooster(2,2);
             }
             if(p4.getTotalScore() >= 0.7 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 70%: true");
                 p4checkpoint2 = true;
+                checkBooster(2,3);
             }
         }
     }
 
-//    public void checkBooster(){
-//        if (p1checkpoint1 = true && p2checkpoint1 = false){
-//
-//        }
-//    }
+    // check boosters of all players
+    public void checkBooster(int checkpoint, int playerIndex) {
+        if (checkpoint == 1 && !disableBoost1) {
+            System.out.println("Checkpoint 1 reached by Player " + (playerIndex + 1));
+            for (int i = 0; i < 4; i++) {
+                if (booster1Location[i] == playerIndex) {
+                    System.out.println("Player " + players.get(i) + ": " + players.get(i).getTotalScore());
+                    players.get(i).addBonusPoints(BONUS_POINTS);
+                    System.out.println("Player " + (i + 1) + " gets " + BONUS_POINTS + " bonus points.");
+                    System.out.println("Player " + players.get(i) + ": " + players.get(i).getTotalScore());
+                }
+            }
+            disableBoost1 = true;
+        } else if (checkpoint == 2 && !disableBoost2) {
+            System.out.println("Checkpoint 2 reached by Player " + (playerIndex + 1));
+            for (int i = 0; i < 4; i++) {
+                if (booster2Location[i] == playerIndex) {
+                    System.out.println("Player " + players.get(i) + ": " + players.get(i).getTotalScore());
+                    players.get(i).addBonusPoints(BONUS_POINTS);
+                    System.out.println("Player " + (i + 1) + " gets " + BONUS_POINTS + " bonus points.");
+                    System.out.println("Player " + players.get(i) + ": " + players.get(i).getTotalScore());
+                }
+            }
+            disableBoost2 = true;
+        }
+    }
 
     public static void main(String[] args) {
         Game g = new Game("Mark", "Ryan", "Alice", "Ella");
-        for (int i = 0; i < 10; i++) {
+        
+        g.gamePlaceBooster(g.getP1(), g.getP4(), 1); // Player 1 places a booster on Player 4's first checkpoint
+        g.gamePlaceBooster(g.getP2(), g.getP3(), 1); // Player 2 places a booster on Player 1's first checkpoint
+        g.gamePlaceBooster(g.getP3(), g.getP2(), 1); // Player 3 places a booster on Player 1's first checkpoint
+        g.gamePlaceBooster(g.getP4(), g.getP1(), 1); // Player 4 places a booster on Player 1's first checkpoint
+
+        g.gamePlaceBooster(g.getP1(), g.getP4(), 2); // Player 1 places a booster on Player 4's second checkpoint
+        g.gamePlaceBooster(g.getP2(), g.getP3(), 2); // Player 2 places a booster on Player 1's second checkpoint
+        g.gamePlaceBooster(g.getP3(), g.getP2(), 2); // Player 3 places a booster on Player 1's second checkpoint
+        g.gamePlaceBooster(g.getP4(), g.getP1(), 2); // Player 4 places a booster on Player 1's second checkpoint
+
+        System.out.println("Game Start");
+        System.out.println(Arrays.toString(g.booster1Location));
+        System.out.println(Arrays.toString(g.booster2Location));
+
+        
+        while(g.gameOver() == false) {
             g.roll();
             g.roll();
             g.hold();
-            System.out.println("Die Rolled " + g.getDie().getTop());
-            System.out.println("p1 Turn: " + g.getP1().getTurnScore());
-            System.out.println("p1 Total: " + g.getP1().getTotalScore());
-            System.out.println("p2 Turn: " + g.getP2().getTurnScore());
-            System.out.println("p2 Total: " + g.getP2().getTotalScore());
-            System.out.println("p3 Turn: " + g.getP3().getTurnScore());
-            System.out.println("p3 Total: " + g.getP3().getTotalScore());
-            System.out.println("p4 Turn: " + g.getP4().getTurnScore());
-            System.out.println("p4 Total: " + g.getP4().getTotalScore());
+            g.checkProgress();
+            // System.out.println("Die Rolled " + g.getDie().getTop());
+            // System.out.println("p1 Turn: " + g.getP1().getTurnScore());
+            // System.out.println("p1 Total: " + g.getP1().getTotalScore());
+            // System.out.println("p2 Turn: " + g.getP2().getTurnScore());
+            // System.out.println("p2 Total: " + g.getP2().getTotalScore());
+            // System.out.println("p3 Turn: " + g.getP3().getTurnScore());
+            // System.out.println("p3 Total: " + g.getP3().getTotalScore());
+            // System.out.println("p4 Turn: " + g.getP4().getTurnScore());
+            // System.out.println("p4 Total: " + g.getP4().getTotalScore());
         }
+
+        System.out.println("Final Scores:");
+        System.out.println("Player 1: " + g.getP1().getTotalScore());
+        System.out.println("Player 2: " + g.getP2().getTotalScore());
+        System.out.println("Player 3: " + g.getP3().getTotalScore());
+        System.out.println("Player 4: " + g.getP4().getTotalScore());
     }
 }
