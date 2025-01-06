@@ -81,16 +81,8 @@ public class HelloController {
 
     //Loading preset Songs library in Music
     public void initialize() {
-        songs = new ArrayList<File>();
-        directory = new File("E:\\MyUni\\3rd_year_FRAUAS\\OOP_Java\\Phase_2\\groupProject\\DaIstDerWurmDrin\\music");
-        files = directory.listFiles();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                songs.add(files[i]);
-                System.out.println(files[i]);
-            }
-        }
-        media = new Media(songs.get(songNumber).toURI().toString());
+        String song = new File("music/ghostfinaltwilight-feat-kinoko蘑菇-girls-frontline-ost-ドールズフロントラインofficial.mp3").toURI().toString();
+        media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(1);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);

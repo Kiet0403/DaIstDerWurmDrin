@@ -162,7 +162,7 @@ public class PigController {
 
     public void setDieImage(int top) {
         //dieImage.setImage(new Image("pig/resources/Dice" + top + ".png"));
-        File f = new File("groupProject/DaIstDerWurmDrin/src/main/resources/Dice" + top + ".png");
+        File f = new File("src/main/resources/Dice" + top + ".png");
         dieImage.setImage(new Image(f.toURI().toString()));
     }
 
