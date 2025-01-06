@@ -7,21 +7,21 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="gamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.daistderwurmdrin.PigController">
+<AnchorPane fx:id="gamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.daistderwurmdrin.PigController">
    <children>
-      <SplitPane dividerPositions="0.35638297872340424, 0.6572948328267476, 0.5" layoutX="14.0" layoutY="10.0" orientation="VERTICAL" prefHeight="441.0" prefWidth="178.0">
+      <SplitPane dividerPositions="0.2, 0.4, 0.6, 0.8, 1.0" layoutX="14.0" layoutY="13.0" orientation="VERTICAL" prefHeight="530.0" prefWidth="188.0">
         <items>
-            <VBox fx:id="p1box" spacing="2.0">
+            <VBox fx:id="p1box" prefHeight="100.0" prefWidth="185.0" spacing="2.0">
                <children>
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Player 1" />
                   <GridPane>
@@ -45,7 +45,8 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
             </VBox>
-            <VBox fx:id="p2box" prefHeight="51.0" prefWidth="167.0" spacing="2.0">
+
+            <VBox fx:id="p2box" prefHeight="100.0" prefWidth="185.0" spacing="2.0">
                <children>
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Player 2" />
                   <GridPane>
@@ -69,32 +70,84 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
             </VBox>
-            <ImageView fx:id="dieImage" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#rollAnimation" pickOnBounds="true" preserveRatio="true" />
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
-              <items>
-                  <Button fx:id="holdButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hold" prefHeight="25.0" prefWidth="162.0" text="End turn" />
-              </items>
-            </ToolBar>
+
+            <VBox fx:id="p3box" prefHeight="100.0" prefWidth="185.0" spacing="2.0">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Player 3" />
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Turn" />
+                        <Label text="Total Score" GridPane.rowIndex="1" />
+                        <TextField fx:id="p3turn" editable="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="p3total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </VBox>
+
+            <VBox fx:id="p4box" prefHeight="100.0" prefWidth="185.0" spacing="2.0">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Player 4" />
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Turn" />
+                        <Label text="Total Score" GridPane.rowIndex="1" />
+                        <TextField fx:id="p4turn" editable="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="p4total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </VBox>
+
+            <ImageView fx:id="dieImage" fitHeight="68.0" fitWidth="100.0" onMouseClicked="#rollAnimation" pickOnBounds="true" preserveRatio="true" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="holdButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hold" prefHeight="25.0" prefWidth="94.0" text="End turn" />
+                  <Button fx:id="placeBoosterButton" onAction="#showBoosterWindow" prefHeight="25.0" prefWidth="95.0" text="Place Booster" />
+               </children>
+            </HBox>
         </items>
       </SplitPane>
-      <Pane layoutX="271.0" layoutY="10.0" prefHeight="441.0" prefWidth="585.0">
+      <Pane layoutX="224.0" layoutY="54.0" prefHeight="441.0" prefWidth="585.0">
          <children>
-            <ProgressBar fx:id="progressBar211" layoutX="244.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
+            <ProgressBar fx:id="progressBar1" layoutX="-84.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
-            <ProgressBar fx:id="progressBar21" layoutX="137.0" layoutY="200.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
+            <ProgressBar fx:id="progressBar2" layoutX="28.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
-            <ProgressBar fx:id="progressBar1" layoutX="-81.0" layoutY="200.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
+            <ProgressBar fx:id="progressBar3" layoutX="134.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
-            <ProgressBar fx:id="progressBar2" layoutX="25.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
+            <ProgressBar fx:id="progressBar4" layoutX="244.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
@@ -102,6 +155,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="308.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="164.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="34.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
+            
          </children></Pane>
    </children>
 </AnchorPane>

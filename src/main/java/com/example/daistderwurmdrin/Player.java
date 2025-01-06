@@ -6,12 +6,16 @@ public class Player {
     private String name;
     private int turnScore;
     private int totalScore;
+    private int totalBoosters;
+    private boolean[] usedCheckpoints;
 
     // Constructor
     public Player(String name) {
         this.name = name;
         turnScore = 0;
         totalScore = 0;
+        totalBoosters = 2;
+        usedCheckpoints = new boolean[3];
     }
 
     // Accessor Methods
@@ -27,9 +31,33 @@ public class Player {
         return turnScore;
     }
 
+    public int getBoosters() {
+        return totalBoosters;
+    }
+
     // Game Play Methods
     public void resetTurnScore() {
         turnScore = 0;
+    }
+
+    public void useBooster() {
+        if (totalBoosters > 0){
+            totalBoosters--;
+        }
+    }
+
+    public boolean hasBoosters(){
+        return totalBoosters > 0;
+    }
+
+    public void usedCheckpoint(String checkpoint) {
+        int ckpt = Integer.parseInt(checkpoint);
+        usedCheckpoints[ckpt] = true;
+    }
+
+    public boolean hasUsedCheckpoint(String checkpoint) {
+        int ckpt = Integer.parseInt(checkpoint);
+        return usedCheckpoints[ckpt];
     }
 
     public void updateTurn(int roll) {
@@ -39,6 +67,10 @@ public class Player {
     public void saveScore() {
         totalScore += turnScore;
         resetTurnScore();
+    }
+
+    public void addBonusPoints(int points) {
+        totalScore = totalScore + points;
     }
 
     public static void main(String[] args) {

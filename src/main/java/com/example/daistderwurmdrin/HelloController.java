@@ -1,25 +1,25 @@
 package com.example.daistderwurmdrin;
 
-import com.almasb.fxgl.gameplay.GameDifficulty;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class HelloController {
     @FXML private Button quitButton;
@@ -81,8 +81,16 @@ public class HelloController {
 
     //Loading preset Songs library in Music
     public void initialize() {
-        String songs = new File("Music/ghostfinaltwilight-feat-kinoko蘑菇-girls-frontline-ost-ドールズフロントラインofficial.mp3").toURI().toString();
-        media = new Media(songs);
+        songs = new ArrayList<File>();
+        directory = new File("E:\\MyUni\\3rd_year_FRAUAS\\OOP_Java\\Phase_2\\groupProject\\DaIstDerWurmDrin\\music");
+        files = directory.listFiles();
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                songs.add(files[i]);
+                System.out.println(files[i]);
+            }
+        }
+        media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(1);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);

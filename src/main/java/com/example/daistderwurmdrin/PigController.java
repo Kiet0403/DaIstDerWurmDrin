@@ -1,8 +1,15 @@
 package com.example.daistderwurmdrin;
 
+import java.io.File;
+import java.io.IOException;
+
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -13,8 +20,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import java.io.File;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class PigController {
 
@@ -26,17 +33,31 @@ public class PigController {
 
     @FXML Button holdButton;
 
+    @FXML Button placeBoosterButton;
+
     @FXML TextField p1turn;
 
     @FXML TextField p2turn;
+
+    @FXML TextField p3turn;
+
+    @FXML TextField p4turn;
 
     @FXML TextField p1total;
 
     @FXML TextField p2total;
 
+    @FXML TextField p3total;
+
+    @FXML TextField p4total;
+
     @FXML VBox p1box;
 
     @FXML VBox p2box;
+
+    @FXML VBox p3box;
+
+    @FXML VBox p4box;
 
     @FXML Label title;
 
@@ -44,7 +65,11 @@ public class PigController {
 
     @FXML ProgressBar progressBar2;
 
-    double progress1, progress2;
+    @FXML ProgressBar progressBar3;
+
+    @FXML ProgressBar progressBar4;
+
+    double progress1, progress2, progress3, progress4;
 
     private Roller clock;
 
@@ -76,11 +101,13 @@ public class PigController {
     @FXML
     public void initialize() {
         clock = new Roller();
-        pig = new Game("Player 1", "Player 2");
+        pig = new Game("Player 1", "Player 2", "Player 3", "Player 4");
         updateViews();
 
         progressBar1.setStyle("-fx-accent: red;");
         progressBar2.setStyle("-fx-accent: green;");
+        progressBar3.setStyle("-fx-accent: blue;");
+        progressBar4.setStyle("-fx-accent: yellow;");
 
         holdButton.setDisable(true);
     }
@@ -91,6 +118,10 @@ public class PigController {
         p1total.setText("" + pig.getP1().getTotalScore());
         p2turn.setText("" + pig.getP2().getTurnScore());
         p2total.setText("" + pig.getP2().getTotalScore());
+        p3turn.setText("" + pig.getP3().getTurnScore());
+        p3total.setText("" + pig.getP3().getTotalScore());
+        p4turn.setText("" + pig.getP4().getTurnScore());
+        p4total.setText("" + pig.getP4().getTotalScore());
 
         checkpoints();
 
@@ -100,24 +131,38 @@ public class PigController {
         progress2 = (double) pig.getP2().getTotalScore() / 64;
         progressBar2.setProgress(progress2);
 
+        progress3 = (double) pig.getP3().getTotalScore() / 64;
+        progressBar3.setProgress(progress3);
 
+        progress4 = (double) pig.getP4().getTotalScore() / 64;
+        progressBar4.setProgress(progress4);
 
-        if (pig.p1Turn()) {
+        if (pig.getCurrent() == pig.getP1()) {
             p1box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
             p2box.setBackground(null);
-        } else {
-            p2box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+            p3box.setBackground(null);
+            p4box.setBackground(null);
+        } else if (pig.getCurrent() == pig.getP2()) {
             p1box.setBackground(null);
-        }
-        if (pig.gameOver()) {
-            holdButton.setDisable(true);
-            //title.setText("Game Over! " + pig.getCurrent().getName() + " wins!");
+            p2box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+            p3box.setBackground(null);
+            p4box.setBackground(null);
+        } else if (pig.getCurrent() == pig.getP3()) {
+            p1box.setBackground(null);
+            p2box.setBackground(null);
+            p3box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+            p4box.setBackground(null);
+        } else if (pig.getCurrent() == pig.getP4()) {
+            p1box.setBackground(null);
+            p2box.setBackground(null);
+            p3box.setBackground(null);
+            p4box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
         }
     }
 
     public void setDieImage(int top) {
         //dieImage.setImage(new Image("pig/resources/Dice" + top + ".png"));
-        File f = new File("src/main/resources/Dice" + top + ".png");
+        File f = new File("groupProject/DaIstDerWurmDrin/src/main/resources/Dice" + top + ".png");
         dieImage.setImage(new Image(f.toURI().toString()));
     }
 
@@ -141,5 +186,47 @@ public class PigController {
 
     public void checkpoints(){
         pig.checkProgress();
+    }
+
+    @FXML
+    private void showBoosterWindow() {
+        if (pig.checkNumBooster()){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("BoosterWindow.fxml"));
+                Parent root = loader.load();
+
+                BoosterController boosterController = loader.getController();
+                boosterController.setPigController(this);
+
+                Stage stage = new Stage();
+                stage.setTitle("Place Booster");
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("No Boosters Left");
+            alert.setHeaderText(null);
+            alert.setContentText("You have run out of boosters.");
+            alert.showAndWait();            
+        }
+    }
+
+    private void updateBoosterButton() {
+        if (pig.checkNumBooster()) {
+            placeBoosterButton.setDisable(false);
+        } else {
+            placeBoosterButton.setDisable(true);
+        }
+    }
+
+    public void placeBooster(int targetPlayerIndex, String checkpoint) {
+        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
+        updateViews();
     }
 }
