@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -22,17 +23,19 @@ import java.util.ArrayList;
 
 public class HelloController {
     @FXML private Button quitButton;
-    @FXML private Button newButton;
+    @FXML private Button playButton;
     @FXML private Button easyButton;
     @FXML private Button mediumButton;
     @FXML private Button hardButton;
+    @FXML private Button backButton;
 
     @FXML private AnchorPane startPane;
-    @FXML private AnchorPane difficultyPane;
+    @FXML private VBox difficultyPane;
     @FXML private AnchorPane gamePane;
 
     @FXML private ImageView MyImageView;
     @FXML private ImageView wurmImage;
+    @FXML private ImageView muteButton;
 
     @FXML private File directory;
     @FXML private File[] files;
@@ -45,12 +48,24 @@ public class HelloController {
     @FXML private Scene scene;
     @FXML private Parent root;
     @FXML private Stage stage;
-    // display the image in the start interface
-    Image Welcome = new Image(getClass().getResourceAsStream("icon.jpg"));
 
-    public void displayImage() {
-        MyImageView.setImage(Welcome);
+    private boolean isMuted = false;
+    // display the image in the start interface
+
+    Image Mute = new Image("mute_image.png");
+    Image unMute = new Image("unmute_image.png");
+
+    public void setMuteButton() {
+        if (isMuted == false) {
+            muteButton.setImage(Mute);
+            Stopmusic(null);
+        } else {
+            muteButton.setImage(unMute);
+            Playmusic(null);
+        }
+        isMuted = !isMuted; // Toggle the state
     }
+
     // Exit the program
     public void quit(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -66,79 +81,22 @@ public class HelloController {
 
     //Loading preset Songs library in Music
     public void initialize() {
-        songs = new ArrayList<File>();
-        directory = new File("Music");
-        files = directory.listFiles();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                songs.add(files[i]);
-                System.out.println(files[i]);
-            }
-        }
-        media = new Media(songs.get(songNumber).toURI().toString());
+        String songs = new File("Music/ghostfinaltwilight-feat-kinoko蘑菇-girls-frontline-ost-ドールズフロントラインofficial.mp3").toURI().toString();
+        media = new Media(songs);
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(0.15);
+        mediaPlayer.setVolume(1);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                nextSong(null);
-            }
-        });
+
+        muteButton.setImage(unMute);
     }
     public void Playmusic(ActionEvent event) {
-        mediaPlayer.setVolume(0.15);
-        mediaPlayer.play();
-        // Setting so that the next song runs after the song finishes
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                nextSong(null);
-            }
-        });
+        mediaPlayer.setVolume(1);
     }
     public void Stopmusic(ActionEvent event) {
-        mediaPlayer.stop();
+        mediaPlayer.setVolume(0);
     }
-    public void nextSong(ActionEvent event) {
-        if(songNumber < songs.size() - 1){
-            songNumber++;
-            mediaPlayer.stop();
 
-            media = new Media(songs.get(songNumber).toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-
-            Playmusic(null);
-        }
-        else{
-            songNumber = 0;
-            mediaPlayer.stop();
-
-            media = new Media(songs.get(songNumber).toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-
-            Playmusic(null);
-        }
-    }
-    public void prevSong(ActionEvent event) {
-        if(songNumber > 0){
-            songNumber--;
-            mediaPlayer.stop();
-
-            media = new Media(songs.get(songNumber).toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-
-            Playmusic(null);
-        }
-        else{
-            songNumber = songs.size() - 1;
-            mediaPlayer.stop();
-
-            media = new Media(songs.get(songNumber).toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-
-            Playmusic(null);
-        }
-    }
     // Start a new game
     public void newGame(ActionEvent event) throws IOException {
         root = FXMLLoader.load(HelloApplication.class.getResource("Game.fxml"));
@@ -150,16 +108,19 @@ public class HelloController {
         stage.show();
         Stopmusic(null);
     }
+
     public void chooseDifficulty(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(HelloApplication.class.getResource("Difficulty.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        difficultyPane = new AnchorPane();
-        difficultyPane.setStyle("-fx-background-color: DARKBLUE;");
-        stage.setResizable(true);
-        stage.setTitle("Da ist der Wurm Drin");
-        stage.setScene(scene);
-        stage.show();
-        Stopmusic(null);
+        playButton.setVisible(false);
+        quitButton.setVisible(false);
+        difficultyPane.setVisible(true);
     }
+
+    public void back_to_Menu(ActionEvent event) throws IOException {
+        difficultyPane.setVisible(false);
+        playButton.setVisible(true);
+        quitButton.setVisible(true);
+    }
+
+
+
 }

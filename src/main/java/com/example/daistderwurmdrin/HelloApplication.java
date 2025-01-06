@@ -14,7 +14,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(HelloApplication.class.getResource("StartScreen.fxml"));
+        Parent root = FXMLLoader.load(HelloApplication.class.getResource("test.fxml"));
         Scene scene = new Scene(root, Color.LIGHTCYAN);
         stage.setResizable(true);
         stage.setTitle("Da ist der Wurm Drin");
