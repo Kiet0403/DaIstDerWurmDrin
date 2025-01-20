@@ -2,8 +2,13 @@ package com.example.daistderwurmdrin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,11 +27,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 
 public class PigController {
 
     // Data Fields
+    Random random = new Random();
     Game pig;
+    HelloController hello;
 
     // FXML Connections
     @FXML ImageView dieImage;
@@ -61,13 +70,19 @@ public class PigController {
 
     @FXML Label title;
 
-    @FXML ProgressBar progressBar1;
+    @FXML VBox progressBar1;
+    @FXML VBox progressBar2;
+    @FXML VBox progressBar3;
+    @FXML VBox progressBar4;
 
-    @FXML ProgressBar progressBar2;
+    @FXML VBox bar1;
+    @FXML VBox bar2;
+    @FXML VBox bar3;
+    @FXML VBox bar4;
 
-    @FXML ProgressBar progressBar3;
-
-    @FXML ProgressBar progressBar4;
+    String[] playerNames = {"Alice", "Bob", "Charlie", "Diana"};
+    String[] playerTypes = {"human", "bot", "bot", "bot"};
+    String difficulty = "Easy";
 
     double progress1, progress2, progress3, progress4;
 
@@ -75,9 +90,9 @@ public class PigController {
 
     private class Roller extends AnimationTimer {
 
-        private long FRAMES_PER_SEC = 50L;
+        private long FRAMES_PER_SEC = 20L;
         private long INTERVAL = 1000000000L / FRAMES_PER_SEC;
-        private int MAX_ROLLS = 20;
+        private int MAX_ROLLS = 15;
 
         private long last = 0;
         private int count = 0;
@@ -101,19 +116,20 @@ public class PigController {
     @FXML
     public void initialize() {
         clock = new Roller();
-        pig = new Game("Player 1", "Player 2", "Player 3", "Player 4");
+        pig = new Game(playerNames, playerTypes, difficulty);
+
         updateViews();
 
-        progressBar1.setStyle("-fx-accent: red;");
-        progressBar2.setStyle("-fx-accent: green;");
-        progressBar3.setStyle("-fx-accent: blue;");
-        progressBar4.setStyle("-fx-accent: yellow;");
-
+//        progressBar1.setStyle("-fx-accent: red;");
+//        progressBar2.setStyle("-fx-accent: green;");
+//        progressBar3.setStyle("-fx-accent: blue;");
+//        progressBar4.setStyle("-fx-accent: yellow;");
         holdButton.setDisable(true);
     }
 
     public void updateViews() {
         setDieImage(pig.getDie().getTop());
+
         p1turn.setText("" + pig.getP1().getTurnScore());
         p1total.setText("" + pig.getP1().getTotalScore());
         p2turn.setText("" + pig.getP2().getTurnScore());
@@ -125,17 +141,29 @@ public class PigController {
 
         checkpoints();
 
-        progress1 = (double) pig.getP1().getTotalScore() / 64;
-        progressBar1.setProgress(progress1);
+        progress1 = (double) pig.getP1().getTotalScore() * 10;
+        bar1.setPrefHeight(progress1);
 
-        progress2 = (double) pig.getP2().getTotalScore() / 64;
-        progressBar2.setProgress(progress2);
+        progress2 = (double) pig.getP2().getTotalScore() * 10;
+        bar2.setPrefHeight(progress2);
 
-        progress3 = (double) pig.getP3().getTotalScore() / 64;
-        progressBar3.setProgress(progress3);
+        progress3 = (double) pig.getP3().getTotalScore() * 10;
+        bar3.setPrefHeight(progress3);
 
-        progress4 = (double) pig.getP4().getTotalScore() / 64;
-        progressBar4.setProgress(progress4);
+        progress4 = (double) pig.getP4().getTotalScore() * 10;
+        bar4.setPrefHeight(progress4);
+
+//        progress1 = (double) pig.getP1().getTotalScore() / pig.MAX_SCORE;
+//        progressBar1.setProgress(progress1);
+//
+//        progress2 = (double) pig.getP2().getTotalScore() / pig.MAX_SCORE;
+//        progressBar2.setProgress(progress2);
+//
+//        progress3 = (double) pig.getP3().getTotalScore() / pig.MAX_SCORE;
+//        progressBar3.setProgress(progress3);
+//
+//        progress4 = (double) pig.getP4().getTotalScore() / pig.MAX_SCORE;
+//        progressBar4.setProgress(progress4);
 
         if (pig.getCurrent() == pig.getP1()) {
             p1box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
@@ -157,6 +185,19 @@ public class PigController {
             p2box.setBackground(null);
             p3box.setBackground(null);
             p4box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+        }
+
+        if (pig.gameOverTie()){
+            holdButton.setDisable(true);
+            placeBoosterButton.setDisable(true);
+            dieImage.setDisable(true);
+            System.out.println("Tie");
+        }
+
+        if (pig.gameOver()){
+            holdButton.setDisable(true);
+            placeBoosterButton.setDisable(true);
+            dieImage.setDisable(true);
         }
     }
 
@@ -182,6 +223,7 @@ public class PigController {
         dieImage.setDisable(false);
         holdButton.setDisable(true);
         updateViews();
+        checkBots();
     }
 
     public void checkpoints(){
@@ -228,5 +270,51 @@ public class PigController {
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
         pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
         updateViews();
+    }
+
+    public void checkBots() {
+        if (pig.getCurrent() instanceof bot) {
+            //roll dice
+            rollAnimation();
+            PauseTransition pause1 = new PauseTransition(Duration.millis(975)); // action delay to diasble the hold button
+            pause1.setOnFinished(event -> {holdButton.setDisable(true);});
+            pause1.play();
+
+            //betting algorithm based on difficulty
+            switch (difficulty){
+                // easy case: the bot just bet on random people
+                case "Easy": {
+                    if (pig.checkNumBooster()){
+                        int dumbbot1 = random.nextInt(3);
+                        int dumbbot2 = random.nextInt(3);
+                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(dumbbot1), "1");
+                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(dumbbot2), "2");
+                        System.out.println("Placed in 1 and 2");
+                    }
+                }
+                    break;
+                // medium case: the bot bets on itself
+                case "Medium": {
+                    if (pig.checkNumBooster()) {
+                        pig.gamePlaceBooster(pig.getCurrent(), pig.getCurrent(), "1");
+                        pig.gamePlaceBooster(pig.getCurrent(), pig.getCurrent(), "2");
+                        System.out.println("Placed in 1 and 2");
+                    }
+                    break;
+                }
+                // hard case: the bot uses an optimization algorithm for betting
+                case "Hard": {
+                    if (pig.checkNumBooster()) {
+                        pig.OptimizeBoosters1();
+                        pig.OptimizeBoosters2();
+                    }
+                    break;
+                }
+            }
+            //end turn
+            PauseTransition pause = new PauseTransition(Duration.seconds(3)); // Delay of 3 second between each bots round
+            pause.setOnFinished(event -> {hold();});
+            pause.play();
+        }
     }
 }

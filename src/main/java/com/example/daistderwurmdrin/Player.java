@@ -1,5 +1,7 @@
 package com.example.daistderwurmdrin;
 
+import com.example.daistderwurmdrin.Game;
+
 public class Player {
 
     // Data Fields
@@ -46,6 +48,10 @@ public class Player {
         }
     }
 
+    public void OptimizeBoosters(){
+
+    }
+
     public boolean hasBoosters(){
         return totalBoosters > 0;
     }
@@ -89,5 +95,18 @@ public class Player {
         System.out.println("Saving...");
         System.out.println("Turn Score: " + p.getTurnScore());
         System.out.println("Total Score: " + p.getTotalScore());
+    }
+}
+
+class HumanPlayer extends Player{
+    public HumanPlayer(String name) {
+        super(name);
+    }
+}
+class bot extends Player {
+    public String difficulty;
+    bot(String difficulty, String name) {
+        super(name);
+        this.difficulty=difficulty;
     }
 }
