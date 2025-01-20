@@ -91,3 +91,16 @@ public class Player {
         System.out.println("Total Score: " + p.getTotalScore());
     }
 }
+
+class HumanPlayer extends Player{
+    public HumanPlayer(String name) {
+        super(name);
+    }
+}
+class bot extends Player {
+    public String difficulty;
+    bot(String difficulty, String name) {
+        super(name);
+        this.difficulty=difficulty;
+    }
+}
