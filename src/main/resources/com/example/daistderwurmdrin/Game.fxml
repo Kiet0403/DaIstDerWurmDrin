@@ -40,6 +40,8 @@
                         <TextField fx:id="p1total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p1booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p1booster2" fill="YELLOW" height="20.0" width="20.0" /> 
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -65,6 +67,8 @@
                         <TextField fx:id="p2total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p2booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p2booster2" fill="YELLOW" height="20.0" width="20.0" />                  
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -90,6 +94,8 @@
                         <TextField fx:id="p3total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p3booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p3booster2" fill="YELLOW" height="20.0" width="20.0" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -115,6 +121,8 @@
                         <TextField fx:id="p4total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p4booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p4booster2" fill="YELLOW" height="20.0" width="20.0" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -125,7 +133,6 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="holdButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hold" prefHeight="25.0" prefWidth="94.0" text="End turn" />
-                  <Button fx:id="placeBoosterButton" onAction="#showBoosterWindow" prefHeight="25.0" prefWidth="95.0" text="Place Booster" />
                </children>
             </HBox>
         </items>
@@ -137,24 +144,36 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
+            
             <ProgressBar fx:id="progressBar2" layoutX="28.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
+
             <ProgressBar fx:id="progressBar3" layoutX="134.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
+
             <ProgressBar fx:id="progressBar4" layoutX="244.0" layoutY="201.0" prefHeight="40.0" prefWidth="424.0" progress="0.3" rotate="-90.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ProgressBar>
+
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="308.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="35.0" layoutY="164.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fc425" height="113.0" layoutX="34.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="518.0" />
+            <Rectangle fx:id="checkpoint1_1" fill="BLACK" height="20.0" layoutX="118.0" layoutY="308.0" width="20.0" />
+            <Rectangle fx:id="checkpoint1_2" fill="BLACK" height="20.0" layoutX="118.0" layoutY="164.0" width="20.0" />
+            <Rectangle fx:id="checkpoint2_1" fill="BLACK" height="20.0" layoutX="230.0" layoutY="308.0" width="20.0" />
+            <Rectangle fx:id="checkpoint2_2" fill="BLACK" height="20.0" layoutX="230.0" layoutY="164.0" width="20.0" />
+            <Rectangle fx:id="checkpoint3_1" fill="BLACK" height="20.0" layoutX="336.0" layoutY="308.0" width="20.0" />
+            <Rectangle fx:id="checkpoint3_2" fill="BLACK" height="20.0" layoutX="336.0" layoutY="164.0" width="20.0" />
+            <Rectangle fx:id="checkpoint4_1" fill="BLACK" height="20.0" layoutX="446.0" layoutY="308.0" width="20.0" />
+            <Rectangle fx:id="checkpoint4_2" fill="BLACK" height="20.0" layoutX="446.0" layoutY="164.0" width="20.0" />
             
          </children></Pane>
    </children>

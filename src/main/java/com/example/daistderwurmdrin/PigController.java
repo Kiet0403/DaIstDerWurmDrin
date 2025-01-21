@@ -1,15 +1,9 @@
 package com.example.daistderwurmdrin;
 
 import java.io.File;
-import java.io.IOException;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -20,20 +14,18 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 
-public class PigController {
+public class PigController{
 
     // Data Fields
     Game pig;
+    private Rectangle selectedBooster = null;
 
     // FXML Connections
     @FXML ImageView dieImage;
 
     @FXML Button holdButton;
-
-    @FXML Button placeBoosterButton;
 
     @FXML TextField p1turn;
 
@@ -61,6 +53,24 @@ public class PigController {
 
     @FXML Label title;
 
+    @FXML Rectangle p1booster1;
+    @FXML Rectangle p1booster2;
+    @FXML Rectangle p2booster1;
+    @FXML Rectangle p2booster2;
+    @FXML Rectangle p3booster1;
+    @FXML Rectangle p3booster2;
+    @FXML Rectangle p4booster1;
+    @FXML Rectangle p4booster2;
+
+    @FXML Rectangle checkpoint1_1;
+    @FXML Rectangle checkpoint1_2;
+    @FXML Rectangle checkpoint2_1;
+    @FXML Rectangle checkpoint2_2;
+    @FXML Rectangle checkpoint3_1;
+    @FXML Rectangle checkpoint3_2;
+    @FXML Rectangle checkpoint4_1;
+    @FXML Rectangle checkpoint4_2;
+
     @FXML ProgressBar progressBar1;
 
     @FXML ProgressBar progressBar2;
@@ -69,10 +79,12 @@ public class PigController {
 
     @FXML ProgressBar progressBar4;
 
+    ProgressBar[] progressBars = new ProgressBar[4];
+
     double progress1, progress2, progress3, progress4;
+    Rectangle[][] checkpoints;
 
     private Roller clock;
-
     private class Roller extends AnimationTimer {
 
         private long FRAMES_PER_SEC = 50L;
@@ -110,6 +122,61 @@ public class PigController {
         progressBar4.setStyle("-fx-accent: yellow;");
 
         holdButton.setDisable(true);
+        progressBars = new ProgressBar[]{progressBar1, progressBar2, progressBar3, progressBar4};
+        checkpoints = new Rectangle[][] {
+            {checkpoint1_1, checkpoint1_2},
+            {checkpoint2_1, checkpoint2_2},
+            {checkpoint3_1, checkpoint3_2},
+            {checkpoint4_1, checkpoint4_2}
+        };
+        
+        addBoosterEventHandlers();
+        addCheckpointEventHandlers();
+    }
+
+    private void addBoosterEventHandlers() {
+        p1booster1.setOnMouseClicked(event -> selectBooster(p1booster1));
+        p1booster2.setOnMouseClicked(event -> selectBooster(p1booster2));
+        p2booster1.setOnMouseClicked(event -> selectBooster(p2booster1));
+        p2booster2.setOnMouseClicked(event -> selectBooster(p2booster2));
+        p3booster1.setOnMouseClicked(event -> selectBooster(p3booster1));
+        p3booster2.setOnMouseClicked(event -> selectBooster(p3booster2));
+        p4booster1.setOnMouseClicked(event -> selectBooster(p4booster1));
+        p4booster2.setOnMouseClicked(event -> selectBooster(p4booster2));
+    }
+
+    private void addCheckpointEventHandlers() {
+        for (int i = 0; i < checkpoints.length; i++) {
+            int playerIndex = i;
+            checkpoints[i][0].setOnMouseClicked(event -> placeBoosterOnCheckpoint(playerIndex, "1"));
+            checkpoints[i][1].setOnMouseClicked(event -> placeBoosterOnCheckpoint(playerIndex, "2"));
+        }
+    }
+
+    private void selectBooster(Rectangle booster) {
+        // Check if the selected booster belongs to the current player
+        if ((pig.getCurrent() == pig.getP1() && (booster == p1booster1 || booster == p1booster2)) ||
+            (pig.getCurrent() == pig.getP2() && (booster == p2booster1 || booster == p2booster2)) ||
+            (pig.getCurrent() == pig.getP3() && (booster == p3booster1 || booster == p3booster2)) ||
+            (pig.getCurrent() == pig.getP4() && (booster == p4booster1 || booster == p4booster2))) {
+            if (selectedBooster != null) {
+                selectedBooster.setStroke(null);
+            }
+            selectedBooster = booster;
+            selectedBooster.setStroke(Color.BLACK);
+        }
+    }
+
+    private void placeBoosterOnCheckpoint(int targetPlayerIndex, String checkpoint) {
+        if (selectedBooster == null) {
+            return;
+        }
+
+        selectedBooster.setFill(Color.GREY);
+        selectedBooster.setDisable(true);
+        placeBooster(targetPlayerIndex, checkpoint);
+        selectedBooster.setStroke(null);
+        selectedBooster = null;
     }
 
     public void updateViews() {
@@ -161,8 +228,8 @@ public class PigController {
     }
 
     public void setDieImage(int top) {
-        //dieImage.setImage(new Image("pig/resources/Dice" + top + ".png"));
-        File f = new File("src/main/resources/Dice" + top + ".png");
+        // File f = new File("src/main/resources/Dice" + top + ".png");
+        File f = new File("DaIstDerWurmDrin\\src\\main\\resources\\Dice" + top + ".png");
         dieImage.setImage(new Image(f.toURI().toString()));
     }
 
@@ -188,45 +255,9 @@ public class PigController {
         pig.checkProgress();
     }
 
-    @FXML
-    private void showBoosterWindow() {
-        if (pig.checkNumBooster()){
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("BoosterWindow.fxml"));
-                Parent root = loader.load();
-
-                BoosterController boosterController = loader.getController();
-                boosterController.setPigController(this);
-
-                Stage stage = new Stage();
-                stage.setTitle("Place Booster");
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("No Boosters Left");
-            alert.setHeaderText(null);
-            alert.setContentText("You have run out of boosters.");
-            alert.showAndWait();            
-        }
-    }
-
-    private void updateBoosterButton() {
-        if (pig.checkNumBooster()) {
-            placeBoosterButton.setDisable(false);
-        } else {
-            placeBoosterButton.setDisable(true);
-        }
-    }
-
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
         pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
+        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         updateViews();
     }
 }
