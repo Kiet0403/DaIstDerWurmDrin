@@ -2,7 +2,6 @@ package com.example.daistderwurmdrin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -82,7 +81,7 @@ public class HelloController {
 
     //Loading preset Song library in Music
     public void initialize() {
-        String song = new File("music/ghostfinaltwilight-feat-kinoko蘑菇-girls-frontline-ost-ドールズフロントラインofficial.mp3").toURI().toString();
+        String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
         media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.1);
