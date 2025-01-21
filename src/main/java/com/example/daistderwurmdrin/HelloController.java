@@ -81,7 +81,7 @@ public class HelloController {
 
     //Loading preset Songs library in Music
     public void initialize() {
-        String song = new File("DaIstDerWurmDrin\\music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
+        String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
         media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(1);
