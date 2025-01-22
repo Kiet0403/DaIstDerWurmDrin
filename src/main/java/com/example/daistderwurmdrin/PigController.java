@@ -166,7 +166,6 @@ public class PigController{
         if (selectedBooster == null) {
             return;
         }
-
         selectedBooster.setFill(Color.GREY);
         selectedBooster.setDisable(true);
         placeBooster(targetPlayerIndex, checkpoint);
@@ -268,7 +267,6 @@ public class PigController{
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
         pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
         System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
-        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         updateViews();
     }
 
@@ -288,10 +286,10 @@ public class PigController{
                 // Easy case: The bot just bet on random people
                 case "Easy": {
                     if (pig.checkNumBooster()){
-                        int dumbbot1 = random.nextInt(3);
-                        int dumbbot2 = random.nextInt(3);
-                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(dumbbot1), "1");
-                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(dumbbot2), "2");
+                        int RandomTargetCheckpoint1 = random.nextInt(3);
+                        int RandomTargetCheckpoint2 = random.nextInt(3);
+                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(RandomTargetCheckpoint1), "1");
+                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(RandomTargetCheckpoint2), "2");
                         System.out.println("Placed in 1 and 2 easy mode");
                     }
                 }
