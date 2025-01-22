@@ -172,6 +172,9 @@ public class PigController{
         placeBooster(targetPlayerIndex, checkpoint);
         selectedBooster.setStroke(null);
         selectedBooster = null;
+
+        // disable the chosen checkpoint
+        checkpoints[targetPlayerIndex][Integer.parseInt(checkpoint) - 1].setDisable(true);        
     }
 
     public void updateViews() {
@@ -267,7 +270,6 @@ public class PigController{
 
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
         pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
-        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         updateViews();
     }
