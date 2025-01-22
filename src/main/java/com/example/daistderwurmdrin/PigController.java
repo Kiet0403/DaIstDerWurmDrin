@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-
 public class PigController{
 
     // Data Fields
@@ -268,6 +267,7 @@ public class PigController{
 
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
         pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
+        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         updateViews();
     }
