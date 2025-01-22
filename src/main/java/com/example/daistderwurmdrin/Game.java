@@ -168,10 +168,10 @@ public class Game {
         if (currentPlayer.getBoosters() > 0 && !currentPlayer.hasUsedCheckpoint(checkpoint)) {
             currentPlayer.useBooster();
             currentPlayer.usedCheckpoint(checkpoint);
-            if (checkpoint == "1") {
+            if (checkpoint.equals("1")) {
                 // booster1Location[targetPlayerIndex] = currPlayerIndex;
                 booster1Location[currPlayerIndex] = targetPlayerIndex ;
-            } else if (checkpoint == "2") {
+            } else if (checkpoint.equals("2")) {
                 // booster2Location[targetPlayerIndex] = currPlayerIndex;
                 booster2Location[currPlayerIndex] = targetPlayerIndex ;
             }
@@ -208,22 +208,22 @@ public class Game {
                 !p2checkpoint2 &&
                 !p3checkpoint2 &&
                 !p4checkpoint2) {
-            if (p1.getTotalScore() >= 0.7 * MAX_SCORE) {
+            if (p1.getTotalScore() >= 0.6 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 70%: true");
                 p1checkpoint2 = true;
                 checkBoosterAtCheckpoint(2, 0);
             }
-            if (p2.getTotalScore() >= 0.7 * MAX_SCORE) {
+            if (p2.getTotalScore() >= 0.6 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 70%: true");
                 p2checkpoint2 = true;
                 checkBoosterAtCheckpoint(2,1 );
             }
-            if(p3.getTotalScore() >= 0.7 * MAX_SCORE){
+            if(p3.getTotalScore() >= 0.6 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 70%: true");
                 p3checkpoint2 = true;
                 checkBoosterAtCheckpoint(2,2);
             }
-            if(p4.getTotalScore() >= 0.7 * MAX_SCORE){
+            if(p4.getTotalScore() >= 0.6 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 70%: true");
                 p4checkpoint2 = true;
                 checkBoosterAtCheckpoint(2,3);
