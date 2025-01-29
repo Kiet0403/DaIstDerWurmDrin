@@ -8,6 +8,8 @@ import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -129,6 +131,14 @@ public class PigController{
         addBoosterEventHandlers();
         addCheckpointEventHandlers();
         bindCheckpoints();
+    }
+
+    private void showNotification(String currentPlayerName, String targetPlayerName, String checkpoint) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Booster Placed");
+        alert.setHeaderText(null);
+        alert.setContentText(currentPlayerName + " placed a booster on " + targetPlayerName + " at " + checkpoint);
+        alert.showAndWait();
     }
 
     private void bindCheckpoints() {
@@ -291,8 +301,12 @@ public class PigController{
     }
 
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
-        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
-        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
+        Player currentPlayer = pig.getCurrent();
+        Player targetPlayer = pig.getTargetPlayer(targetPlayerIndex);
+        pig.gamePlaceBooster(currentPlayer, targetPlayer, checkpoint);
+        String message = currentPlayer.getName() + " placed a booster on " + targetPlayer.getName() + " at " + checkpoint;
+        System.out.println(message);
+        showNotification(currentPlayer.getName(), targetPlayer.getName(), checkpoint);
         updateViews();
     }
 
