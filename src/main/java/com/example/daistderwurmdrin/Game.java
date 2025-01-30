@@ -169,10 +169,8 @@ public class Game {
             currentPlayer.useBooster();
             currentPlayer.usedCheckpoint(checkpoint);
             if (checkpoint.equals("1")) {
-                // booster1Location[targetPlayerIndex] = currPlayerIndex;
                 booster1Location[currPlayerIndex] = targetPlayerIndex ;
             } else if (checkpoint.equals("2")) {
-                // booster2Location[targetPlayerIndex] = currPlayerIndex;
                 booster2Location[currPlayerIndex] = targetPlayerIndex ;
             }
         }

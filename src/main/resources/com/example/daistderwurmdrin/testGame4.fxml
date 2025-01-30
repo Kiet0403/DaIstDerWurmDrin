@@ -139,14 +139,14 @@
                <children>
                   <GridPane StackPane.alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
-                      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
-                        <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
-                        <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
                         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="-Infinity" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <VBox fx:id="progressBar1" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="41.0" style="-fx-border-color: black;" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
