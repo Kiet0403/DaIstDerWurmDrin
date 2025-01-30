@@ -5,11 +5,7 @@ import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -80,7 +76,7 @@ public class PigController{
     @FXML VBox bar4;
 
     String[] playerNames = {"Alice", "Bob", "Charlie", "Diana"};
-    String[] playerTypes = {"human", "human", "human", "human"};
+    String[] playerTypes = {"human", "bot", "bot", "bot"};
     private String difficulty;
 
     double progress1, progress2, progress3, progress4;
@@ -130,37 +126,9 @@ public class PigController{
         
         addBoosterEventHandlers();
         addCheckpointEventHandlers();
-        bindCheckpoints();
     }
 
-    private void showNotification(String currentPlayerName, String targetPlayerName, String checkpoint) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Booster Placed");
-        alert.setHeaderText(null);
-        alert.setContentText(currentPlayerName + " placed a booster on " + targetPlayerName + " at " + checkpoint);
-        alert.showAndWait();
-    }
-
-    private void bindCheckpoints() {
-        double scaleFactor = 10; // Configurable scale factor
-        for (Rectangle[] checkpointPair : checkpoints) {
-            for (Rectangle checkpoint : checkpointPair) {
-                if (checkpoint.getParent() != null) {
-                    // Bind width and height to ensure a square shape
-                    checkpoint.widthProperty().bind(Bindings.createDoubleBinding(
-                        () -> {
-                            Bounds bounds = checkpoint.getParent().layoutBoundsProperty().get();
-                            return Math.min(bounds.getWidth(), bounds.getHeight()) / scaleFactor;
-                        },
-                        checkpoint.getParent().layoutBoundsProperty()
-                    ));
     
-                    checkpoint.heightProperty().bind(checkpoint.widthProperty()); // Keep the square ratio
-                }
-            }
-        }
-    }
-
     private void addBoosterEventHandlers() {
         p1booster1.setOnMouseClicked(event -> selectBooster(p1booster1));
         p1booster2.setOnMouseClicked(event -> selectBooster(p1booster2));
@@ -203,9 +171,6 @@ public class PigController{
         placeBooster(targetPlayerIndex, checkpoint);
         selectedBooster.setStroke(null);
         selectedBooster = null;
-
-        // disable the chosen checkpoint
-        checkpoints[targetPlayerIndex][Integer.parseInt(checkpoint) - 1].setDisable(true);        
     }
 
     public void updateViews() {
@@ -300,12 +265,8 @@ public class PigController{
     }
 
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
-        Player currentPlayer = pig.getCurrent();
-        Player targetPlayer = pig.getTargetPlayer(targetPlayerIndex);
-        pig.gamePlaceBooster(currentPlayer, targetPlayer, checkpoint);
-        String message = currentPlayer.getName() + " placed a booster on " + targetPlayer.getName() + " at " + checkpoint;
-        System.out.println(message);
-        showNotification(currentPlayer.getName(), targetPlayer.getName(), checkpoint);
+        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
+        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
         updateViews();
     }
 
