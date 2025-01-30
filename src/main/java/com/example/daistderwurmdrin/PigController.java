@@ -14,9 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class PigController{
 
@@ -27,6 +31,9 @@ public class PigController{
     private Rectangle selectedBooster = null;
 
     // FXML Connections
+    @FXML private Media media;
+    @FXML private MediaPlayer mediaPlayer;
+
     @FXML ImageView dieImage;
 
     @FXML Button holdButton;
@@ -76,7 +83,7 @@ public class PigController{
     @FXML VBox bar4;
 
     String[] playerNames = {"Alice", "Bob", "Charlie", "Diana"};
-    String[] playerTypes = {"human", "bot", "bot", "bot"};
+    String[] playerTypes = {"human","bot","bot","bot"};
     private String difficulty;
 
     double progress1, progress2, progress3, progress4;
@@ -111,6 +118,14 @@ public class PigController{
 
     @FXML
     public void initialize() {
+
+        String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
+        media = new Media(song);
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.1);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setAutoPlay(true);
+
         hello = new HelloController();
         clock = new Roller();
         pig = new Game(playerNames, playerTypes, difficulty);
@@ -311,6 +326,8 @@ public class PigController{
                     }
                     break;
                 }
+                default:
+                    break;
             }
             //End the turn and pass to the next player
             PauseTransition pause = new PauseTransition(Duration.seconds(3)); // Delay of 3 second between each bots round for player to process
@@ -321,5 +338,8 @@ public class PigController{
     }
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+    public void setPlayerTypes(String[] playerTypes) {
+        this.playerTypes = playerTypes;
     }
 }
