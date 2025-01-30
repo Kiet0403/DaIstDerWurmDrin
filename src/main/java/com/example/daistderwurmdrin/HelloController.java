@@ -28,10 +28,13 @@ public class HelloController {
     @FXML private Button mediumButton;
     @FXML private Button hardButton;
     @FXML private Button backButton;
+    @FXML private Button singleplayerButton;
+    @FXML private Button multiplayerButton;
 
     @FXML private AnchorPane startPane;
+    @FXML private VBox gameModePane;
     @FXML private VBox difficultyPane;
-    @FXML private AnchorPane gamePane;
+
 
     @FXML private ImageView MyImageView;
     @FXML private ImageView wurmImage;
@@ -40,7 +43,7 @@ public class HelloController {
     @FXML private Media media;
     @FXML private MediaPlayer mediaPlayer;
     @FXML private MediaPlayer clickSfxPlayer;
-//    @FXML private MediaPlayer hoverSfxPlayer;
+    @FXML private MediaPlayer hoverSfxPlayer;
 
     @FXML private Scene scene;
     @FXML private Parent root;
@@ -56,6 +59,9 @@ public class HelloController {
 
     //Adjust the volume of the music to 0, effectively muting it
     public void setMuteButton() {
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+
         if (isMuted == false) {
             muteButton.setImage(Mute);
             Stopmusic();
@@ -89,13 +95,14 @@ public class HelloController {
         mediaPlayer.setAutoPlay(true);
 
         //Trigger sound effects when clicking on a button
-        String clickSfx = new File("sfx/metal-pipe-clang.mp3").toURI().toString();
+        String clickSfx = new File("sfx/buttonClickSfx.mp3").toURI().toString();
         Media clickSound = new Media(clickSfx);
         clickSfxPlayer = new MediaPlayer(clickSound);
 
-//        String hoverSfx = new File("sfx/metal-pipe-clang.mp3").toURI().toString();
-//        Media hoverSound = new Media(hoverSfx);
-//        clickSfxPlayer = new MediaPlayer(hoverSound);
+        //Trigger sound effects when hovering on a button
+        String hoverSfx = new File("sfx/buttonHoverSfx.mp3").toURI().toString();
+        Media hoverSound = new Media(hoverSfx);
+        hoverSfxPlayer = new MediaPlayer(hoverSound);
 
         muteButton.setImage(unMute);
     }
@@ -107,12 +114,33 @@ public class HelloController {
         mediaPlayer.setVolume(0);
     }
 
-    public void onHover(ActionEvent event){
-
+    public void onHover(){
+        hoverSfxPlayer.seek(hoverSfxPlayer.getStartTime()); // Reset to start
+        hoverSfxPlayer.play();
     }
 
-    // Start a new game
-    public void newGame(ActionEvent event) throws IOException {
+    public void chooseGameMode(ActionEvent event) {
+        playButton.setVisible(false);
+        quitButton.setVisible(false);
+
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+
+        gameModePane.setVisible(true);
+    }
+
+    // Reveal the panel that contains the difficulty buttons
+    public void chooseDifficulty(ActionEvent event){
+        gameModePane.setVisible(false);
+
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+
+        difficultyPane.setVisible(true);
+    }
+
+    // Start a new singleplayer game
+    public void newSingleGame(ActionEvent event) throws IOException {
         // set the chosen difficulty
         if (event.getSource() instanceof Button) {
             Button clickedButton = (Button) event.getSource();
@@ -136,10 +164,15 @@ public class HelloController {
         //Load the fxml with the game
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        loader.setControllerFactory(param -> {
+            PigController pigController = new PigController();
+            pigController.setDifficulty(difficulty);
+            pigController.setPlayerTypes(new String[]{"human", "bot", "bot", "bot"});
+            return pigController;
+        });
+
         root = loader.load();
 
-        PigController pigController = loader.getController();
-        pigController.setDifficulty(difficulty);
 
         //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -151,17 +184,33 @@ public class HelloController {
         Stopmusic();
     }
 
-    // Reveal the panel that contains the difficulty buttons
-    public void chooseDifficulty(ActionEvent event){
-        playButton.setVisible(false);
-        quitButton.setVisible(false);
-
+    // Start a new multiplayer game
+    public void newMultiGame(ActionEvent event) throws IOException {
         clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
         clickSfxPlayer.play();
+        //Load the fxml with the game
 
-        difficultyPane.setVisible(true);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        loader.setControllerFactory(param -> {
+            PigController pigController = new PigController();
+            pigController.setDifficulty(difficulty);
+            pigController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
+            return pigController;
+        });
 
+        root = loader.load();
+
+        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(true);
+        stage.setTitle("Da ist der Wurm Drin");
+        stage.setScene(scene);
+        stage.show();
+        Stopmusic();
     }
+
+
     // Return back to the Menu
     public void back_to_Menu(){
         clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start

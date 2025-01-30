@@ -91,13 +91,6 @@ public class Game {
         return d;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
 
     public Player getCurrent() {
         return current;
