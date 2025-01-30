@@ -1,7 +1,5 @@
 package com.example.daistderwurmdrin;
 
-import com.example.daistderwurmdrin.Game;
-
 public class Player {
 
     // Data Fields
@@ -46,10 +44,6 @@ public class Player {
         if (totalBoosters > 0){
             totalBoosters--;
         }
-    }
-
-    public void OptimizeBoosters(){
-
     }
 
     public boolean hasBoosters(){
