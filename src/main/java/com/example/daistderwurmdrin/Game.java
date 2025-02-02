@@ -57,7 +57,7 @@ public class Game {
             if (playerTypes[i].equalsIgnoreCase("human")) {
                 players.add(new HumanPlayer(playerNames[i]));
             } else if (playerTypes[i].equalsIgnoreCase("bot")) {
-                players.add(new bot(difficulty,playerNames[i]));
+                players.add(new Bot(difficulty,playerNames[i]));
             } else {
                 throw new IllegalArgumentException("Invalid player type: " + playerTypes[i]);
             }

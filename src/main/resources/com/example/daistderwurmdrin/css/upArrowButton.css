@@ -1,0 +1,23 @@
+.arrow-button {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-border-color: #2E7D32; /* Dark green border */
+    -fx-border-width: 3px;
+    -fx-shape: "M 50 0 L 100 50 L 75 50 L 75 100 L 25 100 L 25 50 L 0 50 Z"; /* Arrow shape */
+    -fx-min-width: 100px;
+    -fx-min-height: 100px;
+    -fx-max-width: 100px;
+    -fx-max-height: 100px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Hover Effect */
+.arrow-button:hover {
+    -fx-background-color: orange;
+}
+
+/* Click Effect */
+.arrow-button:pressed {
+    -fx-background-color: darkorange;
+}

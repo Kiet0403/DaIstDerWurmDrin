@@ -1,0 +1,23 @@
+.circular-button {
+    -fx-background-radius: 70%; /* Circular shape */
+    -fx-min-width: 70px;
+    -fx-min-height: 70px;
+    -fx-max-width: 70px;
+    -fx-max-height: 70px;
+
+    /* Background and border */
+    -fx-background-color: #E0FFFF; /* Light cyan inner color */
+    -fx-border-radius: 80%;
+    -fx-border-color: #B8860B; /* Brownish-gold border */
+    -fx-border-width: 3px;
+
+    /* Text and cursor */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+/* Hover effect: Change background to orange */
+.circular-button:hover {
+    -fx-background-color: #FFA500; /* Orange */
+}
