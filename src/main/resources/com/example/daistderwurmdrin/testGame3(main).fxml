@@ -210,6 +210,7 @@
                            </rowConstraints>
                            <VBox.margin>
                               <Insets bottom="35.0" top="35.0" />
+                              <Insets bottom="35.0" top="35.0" />
                            </VBox.margin>
                            <padding>
                               <Insets left="-30.0" right="-30.0" />
@@ -233,7 +234,22 @@
                            </children>
                            <VBox.margin>
                               <Insets bottom="15.0" top="15.0" />
+                              <Insets bottom="15.0" top="15.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane layoutX="65.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
                            <padding>
                               <Insets left="-30.0" right="-30.0" />
                            </padding>
@@ -256,7 +272,12 @@
                            </children>
                            <VBox.margin>
                               <Insets bottom="30.0" top="30.0" />
+                              <Insets bottom="30.0" top="30.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
                            <padding>
                               <Insets left="-30.0" right="-30.0" />
                            </padding>
@@ -265,6 +286,9 @@
                      <padding>
                         <Insets left="20.0" right="25.0" />
                      </padding>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                      <StackPane.margin>
                         <Insets />
                      </StackPane.margin>
