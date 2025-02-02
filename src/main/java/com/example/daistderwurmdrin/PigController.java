@@ -290,9 +290,6 @@ public class PigController{
         // File f = new File("src/main/resources/Dice" + top + ".png");
         
         File f = new File("src\\main\\resources\\Dice" + top + ".png");
-        // File f = new File("src/main/resources/Dice" + top + ".png");
-        
-        File f = new File("src\\main\\resources\\Dice" + top + ".png");
         dieImage.setImage(new Image(f.toURI().toString()));
     }
     // Die rolling animation
@@ -413,7 +410,7 @@ public class PigController{
     }
 
     public void disableBotBoosters() {
-        if (pig.getCurrent() instanceof bot) {
+        if (pig.getCurrent() instanceof Bot) {
             if (pig.getCurrent() == pig.getP1()) {
                 p1booster1.setDisable(true);
                 p1booster1.setFill(Color.GREY);
@@ -436,11 +433,5 @@ public class PigController{
                 p4booster2.setFill(Color.GREY);
             }
         }
-    }
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-    public void setPlayerTypes(String[] playerTypes) {
-        this.playerTypes = playerTypes;
     }
 }
