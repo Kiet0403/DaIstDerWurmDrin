@@ -8,10 +8,11 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.daistderwurmdrin.PigController">
    <children>
@@ -36,6 +37,8 @@
                         <TextField fx:id="p1total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p1booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p1booster2" fill="YELLOW" height="20.0" width="20.0" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -60,6 +63,8 @@
                         <TextField fx:id="p2total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p2booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p2booster2" fill="YELLOW" height="20.0" width="20.0" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -84,6 +89,8 @@
                         <TextField fx:id="p3total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p3booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p3booster2" fill="YELLOW" height="20.0" width="20.0" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -108,6 +115,8 @@
                         <TextField fx:id="p4total" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <Rectangle fx:id="p4booster1" fill="RED" height="20.0" width="20.0" />
+                  <Rectangle fx:id="p4booster2" fill="YELLOW" height="20.0" width="20.0" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -121,7 +130,6 @@
             <HBox prefHeight="41.0" prefWidth="299.0" VBox.vgrow="ALWAYS">
                <children>
                   <Button fx:id="holdButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hold" prefHeight="29.0" prefWidth="72.0" text="End turn" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="placeBoosterButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#showBoosterWindow" prefHeight="29.0" prefWidth="74.0" text="Place Booster" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>
@@ -132,18 +140,17 @@
                <children>
                   <GridPane StackPane.alignment="CENTER">
                     <columnConstraints>
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
-                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
-                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                        <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+                        <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
                         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="-Infinity" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <VBox fx:id="progressBar1" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="41.0" style="-fx-border-color: black;" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                        <VBox fx:id="progressBar1" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="41.0" style="-fx-border-color: black;" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -154,7 +161,7 @@
                               <Insets bottom="14.0" left="75.0" right="75.0" top="13.0" />
                            </GridPane.margin>
                         </VBox>
-                        <VBox fx:id="progressBar2" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" style="-fx-border-color: black;" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                        <VBox fx:id="progressBar2" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" style="-fx-border-color: black;" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -165,7 +172,7 @@
                               <Insets bottom="14.0" left="75.0" right="75.0" top="13.0" />
                            </GridPane.margin>
                         </VBox>
-                        <VBox fx:id="progressBar3" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" style="-fx-border-color: black;" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                        <VBox fx:id="progressBar3" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" style="-fx-border-color: black;" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -176,7 +183,7 @@
                               <Insets bottom="14.0" left="75.0" right="75.0" top="13.0" />
                            </GridPane.margin>
                         </VBox>
-                        <VBox fx:id="progressBar4" alignment="BOTTOM_RIGHT" prefHeight="640.0" prefWidth="50.0" style="-fx-border-color: black;" GridPane.columnIndex="4" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                        <VBox fx:id="progressBar4" alignment="BOTTOM_RIGHT" prefHeight="640.0" prefWidth="50.0" style="-fx-border-color: black;" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -191,34 +198,76 @@
                   </GridPane>
                   <VBox StackPane.alignment="CENTER">
                      <children>
-                        <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="675.0" snapToPixel="false" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                        <GridPane layoutX="70.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
                            <VBox.margin>
-                              <Insets bottom="35.0" left="30.0" right="30.0" top="35.0" />
+                              <Insets bottom="35.0" top="35.0" />
                            </VBox.margin>
-                        </Region>
-                        <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="155.0" prefWidth="675.0" snapToPixel="false" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
+                           <children>
+                              <Rectangle fx:id="checkpoint2_1" fill="BLACK" height="20.0" width="20.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint2_2" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint2_3" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint2_4" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
+                              <Insets bottom="15.0" top="15.0" />
                            </VBox.margin>
-                        </Region>
-                        <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="143.0" prefWidth="705.0" snapToPixel="false" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane layoutX="65.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
+                           <children>
+                              <Rectangle fx:id="checkpoint1_1" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint1_2" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint1_3" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint1_4" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="40.0" left="30.0" right="30.0" top="35.0" />
+                              <Insets bottom="30.0" top="30.0" />
                            </VBox.margin>
-                        </Region>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
                      </children>
                      <padding>
                         <Insets left="20.0" right="25.0" />
                      </padding>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                   </VBox>
                </children>
             </StackPane>

@@ -2,7 +2,6 @@ package com.example.daistderwurmdrin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,47 +22,46 @@ import javafx.stage.Stage;
 
 public class HelloController {
 
-    PigController pigController;
-    Game game;
-
     @FXML private Button quitButton;
     @FXML private Button playButton;
     @FXML private Button easyButton;
     @FXML private Button mediumButton;
     @FXML private Button hardButton;
     @FXML private Button backButton;
+    @FXML private Button singleplayerButton;
+    @FXML private Button multiplayerButton;
 
     @FXML private AnchorPane startPane;
+    @FXML private VBox gameModePane;
     @FXML private VBox difficultyPane;
-    @FXML private AnchorPane gamePane;
+
 
     @FXML private ImageView MyImageView;
     @FXML private ImageView wurmImage;
     @FXML private ImageView muteButton;
 
-    @FXML private File directory;
-    @FXML private File[] files;
-    @FXML private ArrayList<File> songs;
-    @FXML private int songNumber;
-
     @FXML private Media media;
     @FXML private MediaPlayer mediaPlayer;
     @FXML private MediaPlayer clickSfxPlayer;
-//    @FXML private MediaPlayer hoverSfxPlayer;
+    @FXML private MediaPlayer hoverSfxPlayer;
 
     @FXML private Scene scene;
     @FXML private Parent root;
     @FXML private Stage stage;
 
+    public String difficulty;
+
     private boolean isMuted = false;
-    // display the image in the start interface
+    // Display the image in the start interface
 
     Image Mute = new Image("mute_image.png");
     Image unMute = new Image("unmute_image.png");
 
-    public String difficulty;
-
+    //Adjust the volume of the music to 0, effectively muting it
     public void setMuteButton() {
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+
         if (isMuted == false) {
             muteButton.setImage(Mute);
             Stopmusic();
@@ -87,25 +85,28 @@ public class HelloController {
         }
     }
 
-    //Loading preset Songs library in Music
+    //Loading preset Song library in Music
     public void initialize() {
-        String song = new File("music/ghostfinaltwilight-feat-kinoko蘑菇-girls-frontline-ost-ドールズフロントラインofficial.mp3").toURI().toString();
+        String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
         media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.1);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setAutoPlay(true);
 
-        String clickSfx = new File("sfx/metal-pipe-clang.mp3").toURI().toString();
+        //Trigger sound effects when clicking on a button
+        String clickSfx = new File("sfx/buttonClickSfx.mp3").toURI().toString();
         Media clickSound = new Media(clickSfx);
         clickSfxPlayer = new MediaPlayer(clickSound);
 
-//        String hoverSfx = new File("sfx/metal-pipe-clang.mp3").toURI().toString();
-//        Media hoverSound = new Media(hoverSfx);
-//        clickSfxPlayer = new MediaPlayer(hoverSound);
+        //Trigger sound effects when hovering on a button
+        String hoverSfx = new File("sfx/buttonHoverSfx.mp3").toURI().toString();
+        Media hoverSound = new Media(hoverSfx);
+        hoverSfxPlayer = new MediaPlayer(hoverSound);
 
         muteButton.setImage(unMute);
     }
+    // Play and stop the music functions
     public void Playmusic() {
         mediaPlayer.setVolume(0.1);
     }
@@ -113,11 +114,33 @@ public class HelloController {
         mediaPlayer.setVolume(0);
     }
 
-    public void onHover(ActionEvent event){
-
+    public void onHover(){
+        hoverSfxPlayer.seek(hoverSfxPlayer.getStartTime()); // Reset to start
+        hoverSfxPlayer.play();
     }
-    // Start a new game
-    public void newGame(ActionEvent event) throws IOException {
+
+    public void chooseGameMode(ActionEvent event) {
+        playButton.setVisible(false);
+        quitButton.setVisible(false);
+
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+
+        gameModePane.setVisible(true);
+    }
+
+    // Reveal the panel that contains the difficulty buttons
+    public void chooseDifficulty(ActionEvent event){
+        gameModePane.setVisible(false);
+
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+
+        difficultyPane.setVisible(true);
+    }
+
+    // Start a new singleplayer game
+    public void newSingleGame(ActionEvent event) throws IOException {
         // set the chosen difficulty
         if (event.getSource() instanceof Button) {
             Button clickedButton = (Button) event.getSource();
@@ -126,20 +149,32 @@ public class HelloController {
             // Check which button was pressed
             switch (buttonText) {
                 case "Easy":
-                    difficulty = "easy";
+                    difficulty = "Easy";
                     break;
                 case "Medium":
-                    difficulty = "medium";
+                    difficulty = "Medium";
                     break;
                 case "Hard":
-                    difficulty = "hard";
+                    difficulty = "Hard";
                     break;
             }
         }
         clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
         clickSfxPlayer.play();
+        //Load the fxml with the game
 
-        root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        loader.setControllerFactory(param -> {
+            PigController pigController = new PigController();
+            pigController.setDifficulty(difficulty);
+            pigController.setPlayerTypes(new String[]{"human", "bot", "bot", "bot"});
+            return pigController;
+        });
+
+        root = loader.load();
+
+
+        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setResizable(true);
@@ -149,17 +184,34 @@ public class HelloController {
         Stopmusic();
     }
 
-    public void chooseDifficulty(ActionEvent event){
-        playButton.setVisible(false);
-        quitButton.setVisible(false);
-
+    // Start a new multiplayer game
+    public void newMultiGame(ActionEvent event) throws IOException {
         clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
         clickSfxPlayer.play();
+        //Load the fxml with the game
 
-        difficultyPane.setVisible(true);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        loader.setControllerFactory(param -> {
+            PigController pigController = new PigController();
+            pigController.setDifficulty(difficulty);
+            pigController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
+            return pigController;
+        });
 
+        root = loader.load();
+
+        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(true);
+        stage.setTitle("Da ist der Wurm Drin");
+        stage.setScene(scene);
+        stage.show();
+        Stopmusic();
     }
 
+
+    // Return back to the Menu
     public void back_to_Menu(){
         clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
         clickSfxPlayer.play();
