@@ -97,9 +97,10 @@ class HumanPlayer extends Player{
         super(name);
     }
 }
-class bot extends Player {
+
+class Bot extends Player {
     public String difficulty;
-    bot(String difficulty, String name) {
+    Bot(String difficulty, String name) {
         super(name);
         this.difficulty=difficulty;
     }

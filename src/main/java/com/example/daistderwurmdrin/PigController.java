@@ -8,7 +8,6 @@ import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -19,8 +18,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class PigController{
 
@@ -76,7 +73,7 @@ public class PigController{
     @FXML VBox bar4;
 
     String[] playerNames = {"Little Gritty", "Stripy Toni", "Ruby Red", "Lady Silver"};
-    String[] playerTypes = {"human","bot","bot","bot"};
+    String[] playerTypes;
     private String difficulty;
 
     double progress1, progress2, progress3, progress4;
@@ -271,7 +268,7 @@ public class PigController{
 
     public void checkBots() {
         //Check if the current player is a bot
-        if (pig.getCurrent() instanceof bot) {
+        if (pig.getCurrent() instanceof Bot) {
 
             //Roll the dice
             rollAnimation();
