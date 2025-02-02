@@ -1,0 +1,28 @@
+.worm-button {
+    -fx-background-color: transparent; /* No background */
+    -fx-padding: 0; /* Remove default padding */
+    -fx-font-size: 18px;
+    -fx-text-fill: black; /* Ensure text is visible */
+    -fx-content-display: center;
+    -fx-alignment: center-left;
+    -fx-font-weight: bold;
+    -fx-min-width: 360px;
+    -fx-min-height: 82px;
+    -fx-max-width: 360px;
+    -fx-max-height: 82px;
+    -fx-translate-y: 120px; /* Move up */
+}
+
+
+.worm-button ImageView {
+    -fx-translate-x: 30px; /* Move left */
+    -fx-scale-x: 3.5; /* Increase width */
+    -fx-scale-y: 3.5; /* Increase height */
+}
+
+.worm-button:hover {
+    -fx-max-width: 500px;
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+    -fx-padding: 5px 80px; /* Extends when hovered */
+}

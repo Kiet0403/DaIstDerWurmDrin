@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="650.0" spacing="10" stylesheets="@css/instruction.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.daistderwurmdrin.InstructionController">
+
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="0.0" spacing="10" stylesheets="@css/instruction.css">
+      <children>
+         <ImageView fx:id="leftPage" fitHeight="500.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <image>
+               <Image url="@../../../instructionPg1.png" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="rightPage" fitHeight="500.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../instructionPg2.png" />
+            </image>
+         </ImageView>
+      </children></HBox>
+
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="1080.0" spacing="20" stylesheets="@css/instruction.css">
+      <children>
+         <Button mnemonicParsing="false" onAction="#prevPage" text="Prev" HBox.hgrow="ALWAYS" />
+         <Button mnemonicParsing="false" onAction="#nextPage" text="Next" HBox.hgrow="ALWAYS" />
+      </children></HBox>
+</VBox>

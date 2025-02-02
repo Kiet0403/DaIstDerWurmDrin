@@ -22,6 +22,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.stage.Modality;
 
 public class HelloController {
 
@@ -34,6 +35,7 @@ public class HelloController {
     @FXML private Button backButton;
     @FXML private Button singleplayerButton;
     @FXML private Button multiplayerButton;
+    @FXML private Button infoButton;
 
     @FXML private GridPane background1;
     @FXML private GridPane background2;
@@ -62,34 +64,6 @@ public class HelloController {
 
     Image Mute = new Image("mute_image.png");
     Image unMute = new Image("unmute_image.png");
-
-    //Adjust the volume of the music to 0, effectively muting it
-    public void setMuteButton(ActionEvent event) {
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
-
-        if (isMuted == false) {
-            muteIcon.setImage(Mute);
-            Stopmusic();
-        } else {
-            muteIcon.setImage(unMute);
-            Playmusic();
-        }
-        isMuted = !isMuted; // Toggle the state
-    }
-
-    // Exit the program
-    public void quit() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Quit");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to quit?");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            stage = (Stage) quitButton.getScene().getWindow();
-            stage.close();
-        }
-    }
 
     //Loading preset Song library in Music
     public void initialize() {
@@ -120,6 +94,19 @@ public class HelloController {
         mediaPlayer.setVolume(0);
     }
 
+    //Adjust the volume of the music to 0, effectively muting it
+    public void setMuteButton(ActionEvent event) {
+        onClick();
+        if (isMuted == false) {
+            muteIcon.setImage(Mute);
+            Stopmusic();
+        } else {
+            muteIcon.setImage(unMute);
+            Playmusic();
+        }
+        isMuted = !isMuted; // Toggle the state
+    }
+
     public void onHover(){
         hoverSfxPlayer.seek(hoverSfxPlayer.getStartTime()); // Reset to start
         hoverSfxPlayer.play();
@@ -145,22 +132,34 @@ public class HelloController {
         transition1.play();
         transition2.play();
 
-        // Optional: Hide the first background after animation completes
+        //Hide the first background after animation completes
         transition1.setOnFinished(event -> background1.setVisible(false));
+    }
+
+    public void openInstruction() throws Exception {
+        // Load the popup FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("instruction.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+        popupStage.setResizable(false);
+        popupStage.initModality(Modality.APPLICATION_MODAL); // Makes the popup block other windows
+        popupStage.setTitle("Instructions");
+        popupStage.setScene(new Scene(root, 861.6, 632)); // Adjust size to fit book layout
+        popupStage.show();
     }
 
     public void chooseGameMode(ActionEvent event) {
         playButton.setVisible(false);
 
         rollUpBackground();
+        backButton.setVisible(true);
         gameModePane.setVisible(true);
     }
 
     // Reveal the panel that contains the difficulty buttons
     public void chooseDifficulty(ActionEvent event){
         gameModePane.setVisible(false);
-
-
         difficultyPane.setVisible(true);
     }
 
@@ -250,5 +249,18 @@ public class HelloController {
 
         transition1.play();
         transition2.play();
+    }
+
+    // Exit the program
+    public void quit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to quit?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            stage = (Stage) quitButton.getScene().getWindow();
+            stage.close();
+        }
     }
 }
