@@ -198,40 +198,76 @@
                   </GridPane>
                   <VBox StackPane.alignment="CENTER">
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                        <GridPane layoutX="70.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
                            <VBox.margin>
-                              <Insets bottom="35.0" left="30.0" right="30.0" top="35.0" />
+                              <Insets bottom="35.0" top="35.0" />
                            </VBox.margin>
-                        </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
-                           </VBox.margin>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
                            <children>
-                              <Rectangle fx:id="checkpoint1_2" fill="BLACK" height="20.0" layoutX="37.0" layoutY="14.0" width="20.0" />
-                              <Rectangle fx:id="checkpoint2_2" fill="BLACK" height="20.0" layoutX="236.0" layoutY="14.0" width="20.0" />
-                              <Rectangle fx:id="checkpoint3_2" fill="BLACK" height="20.0" layoutX="430.0" layoutY="14.0" width="20.0" />
-                              <Rectangle fx:id="checkpoint4_2" fill="BLACK" height="20.0" layoutX="623.0" layoutY="17.0" width="20.0" />
+                              <Rectangle fx:id="checkpoint2_1" fill="BLACK" height="20.0" width="20.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint2_2" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint2_3" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint2_4" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
                            </children>
-                        </Pane>
-                        <Pane prefHeight="196.0" prefWidth="737.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets bottom="40.0" left="30.0" right="30.0" top="35.0" />
+                              <Insets bottom="15.0" top="15.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane layoutX="65.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #36ef5a;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
                            <children>
-                              <Rectangle fx:id="checkpoint1_1" fill="BLACK" height="20.0" layoutX="37.0" layoutY="11.0" width="20.0" />
-                              <Rectangle fx:id="checkpoint2_1" fill="BLACK" height="20.0" layoutX="233.0" layoutY="10.0" width="20.0" />
-                              <Rectangle fx:id="checkpoint3_1" fill="BLACK" height="20.0" layoutX="427.0" layoutY="10.0" width="20.0" />
-                              <Rectangle fx:id="checkpoint4_1" fill="BLACK" height="20.0" layoutX="619.0" layoutY="12.0" width="20.0" />
+                              <Rectangle fx:id="checkpoint1_1" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint1_2" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint1_3" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Rectangle fx:id="checkpoint1_4" fill="BLACK" height="20.0" width="20.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                            </children>
-                        </Pane>
+                           <VBox.margin>
+                              <Insets bottom="30.0" top="30.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
                      </children>
                      <padding>
                         <Insets left="20.0" right="25.0" />
                      </padding>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                   </VBox>
                </children>
             </StackPane>

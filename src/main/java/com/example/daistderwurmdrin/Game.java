@@ -96,6 +96,10 @@ public class Game {
         return current;
     }
 
+    public int getCurrentPlayerIndex() {
+        return players.indexOf(current);
+    }
+
 
     public Player getTargetPlayer(int index) {
         return players.get(index);
@@ -170,6 +174,8 @@ public class Game {
             }
         }
     }
+
+    
 
     public void checkProgress() {
         if(!p1checkpoint1 &&
@@ -289,6 +295,7 @@ public class Game {
                 System.out.println("placed on "+ getTargetPlayer(i));
             }
         }
+        
     }
 
 
