@@ -8,6 +8,7 @@ public class Game {
 
     public static final int MAX_SCORE = 64;
     public static final int BONUS_POINTS = 3;
+    public static final int INITIAL_SCORE = 3;
 
     // Data Fields
     private com.example.daistderwurmdrin.Die d;

@@ -255,16 +255,16 @@ public class PigController{
         //Check whether any player has reached a checkpoint
         checkpoints();
         // Update the score of each player
-        progress1 = (double) pig.getP1().getTotalScore() * 10;
+        progress1 = ((double) pig.getP1().getTotalScore() + Game.INITIAL_SCORE) * 10;
         bar1.setPrefHeight(progress1);
 
-        progress2 = (double) pig.getP2().getTotalScore() * 10;
+        progress2 = ((double) pig.getP2().getTotalScore() + Game.INITIAL_SCORE) * 10;
         bar2.setPrefHeight(progress2);
 
-        progress3 = (double) pig.getP3().getTotalScore() * 10;
+        progress3 = ((double) pig.getP3().getTotalScore() + Game.INITIAL_SCORE) * 10;
         bar3.setPrefHeight(progress3);
 
-        progress4 = (double) pig.getP4().getTotalScore() * 10;
+        progress4 = ((double) pig.getP4().getTotalScore() + Game.INITIAL_SCORE) * 10;
         bar4.setPrefHeight(progress4);
 
         // Update the background of current player to be green for clarity
