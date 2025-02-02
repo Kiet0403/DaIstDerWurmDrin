@@ -284,7 +284,7 @@ public class PigController{
             dieImage.setDisable(true);
         }
     }
-
+    // Ste dice image corresponding to the die value
     // Ste dice image corresponding to the die value
     public void setDieImage(int top) {
         // File f = new File("src/main/resources/Dice" + top + ".png");
@@ -293,9 +293,11 @@ public class PigController{
         dieImage.setImage(new Image(f.toURI().toString()));
     }
     // Die rolling animation
+    // Die rolling animation
     public void rollAnimation() {
         clock.start();
     }
+    // Roll the die and record the value
     // Roll the die and record the value
     public void roll() {
         pig.roll();
@@ -303,7 +305,7 @@ public class PigController{
         holdButton.setDisable(false);
         updateViews();
     }
-
+    // Pass the turn
     // Pass the turn
     public void hold() {
         pig.hold();
@@ -352,6 +354,7 @@ public class PigController{
                     }
                 }
                     break;
+
                 // Medium case: the bot bets on itself
                 case "Medium": {
                     if (pig.checkNumBooster()) {
@@ -368,7 +371,6 @@ public class PigController{
                     }
                     break;
                 }
-                // Hard case: the bot uses an optimization algorithm for betting
 
                 // Hard case: the bot uses an optimization algorithm for betting
                 case "Hard": {

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +20,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.stage.Modality;
 
 public class HelloController {
 
@@ -56,6 +57,7 @@ public class HelloController {
     @FXML private Stage stage;
 
     public String difficulty;
+
     private double backgroundHeight;
     private boolean isMuted = false;
     // Display the image in the start interface
@@ -63,22 +65,6 @@ public class HelloController {
     Image Mute = new Image("mute_image.png");
     Image unMute = new Image("unmute_image.png");
 
- 
-
-    // Exit the program
-    public void quit() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Quit");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to quit?");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            stage = (Stage) quitButton.getScene().getWindow();
-            stage.close();
-        }
-    }
-
-    //Loading preset Songs library in Music
     public void initialize() {
         String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
         media = new Media(song);
@@ -220,8 +206,32 @@ public class HelloController {
         Stopmusic();
     }
 
+    // Start a new multiplayer game
+    public void newMultiGame(ActionEvent event) throws IOException {
+        //Load the fxml with the game
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        loader.setControllerFactory(param -> {
+            PigController pigController = new PigController();
+            pigController.setDifficulty(difficulty);
+            pigController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
+            return pigController;
+        });
+
+        root = loader.load();
+
+        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(true);
+        stage.setTitle("Da ist der Wurm Drin");
+        stage.setScene(scene);
+        stage.show();
+        Stopmusic();
+    }
 
 
+    // Return back to the Menu
     public void back_to_Menu(){
         difficultyPane.setVisible(false);
         playButton.setVisible(true);
@@ -238,5 +248,18 @@ public class HelloController {
 
         transition1.play();
         transition2.play();
+    }
+
+    // Exit the program
+    public void quit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to quit?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            stage = (Stage) quitButton.getScene().getWindow();
+            stage.close();
+        }
     }
 }
