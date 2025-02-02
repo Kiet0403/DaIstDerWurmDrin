@@ -184,6 +184,7 @@ public class HelloController {
             }
         }
 
+        onClick();
         //Load the fxml with the game
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
@@ -210,6 +211,8 @@ public class HelloController {
     // Start a new multiplayer game
     public void newMultiGame(ActionEvent event) throws IOException {
         //Load the fxml with the game
+
+        onClick();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
         loader.setControllerFactory(param -> {
