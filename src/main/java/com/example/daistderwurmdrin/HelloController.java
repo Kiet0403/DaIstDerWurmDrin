@@ -3,6 +3,8 @@ package com.example.daistderwurmdrin;
 import java.io.File;
 import java.io.IOException;
 
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,31 +16,36 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import javafx.stage.Modality;
 
 public class HelloController {
 
     @FXML private Button quitButton;
     @FXML private Button playButton;
+    @FXML private Button muteButton;
     @FXML private Button easyButton;
     @FXML private Button mediumButton;
     @FXML private Button hardButton;
     @FXML private Button backButton;
     @FXML private Button singleplayerButton;
     @FXML private Button multiplayerButton;
+    @FXML private Button infoButton;
 
-    @FXML private AnchorPane startPane;
+    @FXML private GridPane background1;
+    @FXML private GridPane background2;
     @FXML private VBox gameModePane;
     @FXML private VBox difficultyPane;
 
 
     @FXML private ImageView MyImageView;
     @FXML private ImageView wurmImage;
-    @FXML private ImageView muteButton;
+    @FXML private ImageView muteIcon;
 
     @FXML private Media media;
     @FXML private MediaPlayer mediaPlayer;
@@ -50,27 +57,14 @@ public class HelloController {
     @FXML private Stage stage;
 
     public String difficulty;
-
+    private double backgroundHeight;
     private boolean isMuted = false;
     // Display the image in the start interface
 
     Image Mute = new Image("mute_image.png");
     Image unMute = new Image("unmute_image.png");
 
-    //Adjust the volume of the music to 0, effectively muting it
-    public void setMuteButton() {
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
-
-        if (isMuted == false) {
-            muteButton.setImage(Mute);
-            Stopmusic();
-        } else {
-            muteButton.setImage(unMute);
-            Playmusic();
-        }
-        isMuted = !isMuted; // Toggle the state
-    }
+ 
 
     // Exit the program
     public void quit() {
@@ -85,7 +79,7 @@ public class HelloController {
         }
     }
 
-    //Loading preset Song library in Music
+    //Loading preset Songs library in Music
     public void initialize() {
         String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
         media = new Media(song);
@@ -104,7 +98,7 @@ public class HelloController {
         Media hoverSound = new Media(hoverSfx);
         hoverSfxPlayer = new MediaPlayer(hoverSound);
 
-        muteButton.setImage(unMute);
+        muteIcon.setImage(unMute);
     }
     // Play and stop the music functions
     public void Playmusic() {
@@ -114,28 +108,72 @@ public class HelloController {
         mediaPlayer.setVolume(0);
     }
 
+    //Adjust the volume of the music to 0, effectively muting it
+    public void setMuteButton(ActionEvent event) {
+        onClick();
+        if (isMuted == false) {
+            muteIcon.setImage(Mute);
+            Stopmusic();
+        } else {
+            muteIcon.setImage(unMute);
+            Playmusic();
+        }
+        isMuted = !isMuted; // Toggle the state
+    }
+
     public void onHover(){
         hoverSfxPlayer.seek(hoverSfxPlayer.getStartTime()); // Reset to start
         hoverSfxPlayer.play();
     }
+    public void onClick(){
+        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
+        clickSfxPlayer.play();
+    }
+
+    public void rollUpBackground() {
+        double height = background1.getHeight(); // Get the height of the background
+
+        background2.setTranslateY(height); // Move background2 BELOW background1
+
+        // Move the first background up and fade it out
+        TranslateTransition transition1 = new TranslateTransition(Duration.seconds(2), background1);
+        transition1.setByY(-height);
+
+        // Move the second background up at the same time
+        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(2), background2);
+        transition2.setByY(-height);
+
+        transition1.play();
+        transition2.play();
+
+        //Hide the first background after animation completes
+        transition1.setOnFinished(event -> background1.setVisible(false));
+    }
+
+    public void openInstruction() throws Exception {
+        // Load the popup FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("instruction.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+        popupStage.setResizable(false);
+        popupStage.initModality(Modality.APPLICATION_MODAL); // Makes the popup block other windows
+        popupStage.setTitle("Instructions");
+        popupStage.setScene(new Scene(root, 861.6, 632)); // Adjust size to fit book layout
+        popupStage.show();
+    }
 
     public void chooseGameMode(ActionEvent event) {
         playButton.setVisible(false);
-        quitButton.setVisible(false);
 
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
-
+        rollUpBackground();
+        backButton.setVisible(true);
         gameModePane.setVisible(true);
     }
 
     // Reveal the panel that contains the difficulty buttons
     public void chooseDifficulty(ActionEvent event){
         gameModePane.setVisible(false);
-
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
-
         difficultyPane.setVisible(true);
     }
 
@@ -159,8 +197,7 @@ public class HelloController {
                     break;
             }
         }
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
+
         //Load the fxml with the game
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
@@ -184,40 +221,36 @@ public class HelloController {
         Stopmusic();
     }
 
-    // Start a new multiplayer game
-    public void newMultiGame(ActionEvent event) throws IOException {
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
-        //Load the fxml with the game
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
-        loader.setControllerFactory(param -> {
-            PigController pigController = new PigController();
-            pigController.setDifficulty(difficulty);
-            pigController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
-            return pigController;
-        });
-
-        root = loader.load();
-
-        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setResizable(true);
-        stage.setTitle("Da ist der Wurm Drin");
-        stage.setScene(scene);
-        stage.show();
-        Stopmusic();
-    }
 
 
-    // Return back to the Menu
     public void back_to_Menu(){
-        clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
-        clickSfxPlayer.play();
-
         difficultyPane.setVisible(false);
         playButton.setVisible(true);
-        quitButton.setVisible(true);
+        background1.setVisible(true);
+        double height = background1.getHeight(); // Get the height of the background
+
+        // Move the first background up and fade it out
+        TranslateTransition transition1 = new TranslateTransition(Duration.seconds(2), background1);
+        transition1.setByY(+height);
+
+        // Move the second background up at the same time
+        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(2), background2);
+        transition2.setByY(+height);
+
+        transition1.play();
+        transition2.play();
+    }
+
+    // Exit the program
+    public void quit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to quit?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            stage = (Stage) quitButton.getScene().getWindow();
+            stage.close();
+        }
     }
 }

@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -40,14 +39,7 @@ public class PigController{
 
     @FXML Button holdButton;
 
-    @FXML TextField p1turn;
-    @FXML TextField p2turn;
-    @FXML TextField p3turn;
-    @FXML TextField p4turn;
-    @FXML TextField p1total;
-    @FXML TextField p2total;
-    @FXML TextField p3total;
-    @FXML TextField p4total;
+
 
     @FXML VBox p1box;
     @FXML VBox p2box;
@@ -84,8 +76,8 @@ public class PigController{
     @FXML VBox bar3;
     @FXML VBox bar4;
 
-    String[] playerNames = {"Alice", "Bob", "Charlie", "Diana"};
-    String[] playerTypes = {"human","bot","bot","bot"};
+    String[] playerNames = {"Little Gritty", "Stripy Toni", "Ruby Red", "Lady Silver"};
+    String[] playerTypes;
     private String difficulty;
 
     double progress1, progress2, progress3, progress4;
@@ -243,15 +235,6 @@ public class PigController{
 
     public void updateViews() {
         setDieImage(pig.getDie().getTop());
-
-        p1turn.setText("" + pig.getP1().getTurnScore());
-        p1total.setText("" + pig.getP1().getTotalScore());
-        p2turn.setText("" + pig.getP2().getTurnScore());
-        p2total.setText("" + pig.getP2().getTotalScore());
-        p3turn.setText("" + pig.getP3().getTurnScore());
-        p3total.setText("" + pig.getP3().getTotalScore());
-        p4turn.setText("" + pig.getP4().getTurnScore());
-        p4total.setText("" + pig.getP4().getTotalScore());
         //Check whether any player has reached a checkpoint
         checkpoints();
         // Update the score of each player
@@ -309,12 +292,10 @@ public class PigController{
         File f = new File("src\\main\\resources\\Dice" + top + ".png");
         dieImage.setImage(new Image(f.toURI().toString()));
     }
-
     // Die rolling animation
     public void rollAnimation() {
         clock.start();
     }
-
     // Roll the die and record the value
     public void roll() {
         pig.roll();
@@ -348,7 +329,7 @@ public class PigController{
 
     public void checkBots() {
         //Check if the current player is a bot
-        if (pig.getCurrent() instanceof bot) {
+        if (pig.getCurrent() instanceof Bot) {
 
             //Roll the dice
             rollAnimation();
@@ -371,7 +352,6 @@ public class PigController{
                     }
                 }
                     break;
-
                 // Medium case: the bot bets on itself
                 case "Medium": {
                     if (pig.checkNumBooster()) {
@@ -388,6 +368,7 @@ public class PigController{
                     }
                     break;
                 }
+                // Hard case: the bot uses an optimization algorithm for betting
 
                 // Hard case: the bot uses an optimization algorithm for betting
                 case "Hard": {
@@ -427,7 +408,7 @@ public class PigController{
     }
 
     public void disableBotBoosters() {
-        if (pig.getCurrent() instanceof bot) {
+        if (pig.getCurrent() instanceof Bot) {
             if (pig.getCurrent() == pig.getP1()) {
                 p1booster1.setDisable(true);
                 p1booster1.setFill(Color.GREY);
