@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,9 +19,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.stage.Modality;
 
 public class HelloController {
 
@@ -239,18 +238,5 @@ public class HelloController {
 
         transition1.play();
         transition2.play();
-    }
-
-    // Exit the program
-    public void quit() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Quit");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to quit?");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            stage = (Stage) quitButton.getScene().getWindow();
-            stage.close();
-        }
     }
 }
