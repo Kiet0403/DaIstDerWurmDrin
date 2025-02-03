@@ -1,13 +1,20 @@
 package com.example.daistderwurmdrin;
 import java.io.File;
+import java.io.IOException;
+import java.util.EventObject;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -18,10 +25,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class PigController{
@@ -32,13 +42,22 @@ public class PigController{
     HelloController hello;
     private Rectangle selectedBooster = null;
 
+    @FXML private Scene scene;
+    @FXML private Parent root;
+    @FXML private Stage stage;
+
     // FXML Connections
     @FXML private Media media;
     @FXML private MediaPlayer mediaPlayer;
+    @FXML private MediaPlayer dieSfxPlayer;
+    @FXML private MediaPlayer winSfxPlayer;
+
+    @FXML HBox gamePane;
 
     @FXML ImageView dieImage;
 
     @FXML Button holdButton;
+    @FXML Button resultButton;
 
 
     @FXML VBox p1box;
@@ -95,6 +114,8 @@ public class PigController{
     String[] playerNames = {"Little Gritty", "Stripy Toni", "Ruby Red", "Lady Silver"};
     String[] playerTypes;
     private String difficulty;
+    private String result;
+    private String winner;
 
     double progress1, progress2, progress3, progress4;
     Rectangle[][] checkpoints;
@@ -113,7 +134,7 @@ public class PigController{
         @Override
         public void handle(long now) {
             if (now - last > INTERVAL) {
-                int r = 2 + (int)(Math.random() * 5);
+                int r = 1 + (int)(Math.random() * 6);
                 setDieImage(r);
                 last = now;
                 count++;
@@ -129,12 +150,20 @@ public class PigController{
     @FXML
     public void initialize() {
 
-        String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
+        String song = new File("music\\gameMusic.mp3").toURI().toString();
         media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.1);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setAutoPlay(true);
+
+        String dieSfx = new File("sfx/diceSfx.mp3").toURI().toString();
+        Media dieSound = new Media(dieSfx);
+        dieSfxPlayer = new MediaPlayer(dieSound);
+
+        String winSfx = new File("sfx/winSfx.mp3").toURI().toString();
+        Media winSound = new Media(winSfx);
+        winSfxPlayer = new MediaPlayer(winSound);
 
         hello = new HelloController();
         clock = new Roller();
@@ -349,14 +378,16 @@ public class PigController{
         }
         // Check if there are 0 piece left to place, resulting in a tie
         if (pig.gameOverTie()){
-            holdButton.setDisable(true);
-            dieImage.setDisable(true);
-            System.out.println("Tie");
+            gamePane.setVisible(false);
+            resultButton.setVisible(true);
+            setResult("tie");
         }
         //Check if a player has won the game
         if (pig.gameOver()){
-            holdButton.setDisable(true);
-            dieImage.setDisable(true);
+            gamePane.setVisible(false);
+            resultButton.setVisible(true);
+            setResult("win");
+            setWinner(pig.getCurrent().getName());
         }
         setAvailablePieces();
     }
@@ -372,6 +403,9 @@ public class PigController{
     // Die rolling animation
     public void rollAnimation() {
         clock.start();
+        //Play sfx
+        dieSfxPlayer.seek(dieSfxPlayer.getStartTime()); // Reset to start
+        dieSfxPlayer.play();
     }
     // Roll the die and record the value
     public void roll() {
@@ -483,6 +517,12 @@ public class PigController{
     public void setPlayerTypes(String[] playerTypes) {
         this.playerTypes = playerTypes;
     }
+    public void setResult(String result) {
+        this.result = result;
+    }
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
 
     public void disableBotBoosters() {
         if (pig.getCurrent() instanceof Bot) {
@@ -508,5 +548,29 @@ public class PigController{
                 p4booster2.setFill(Color.GREY);
             }
         }
+    }
+    public Stage getStage() {
+        return (Stage) holdButton.getScene().getWindow();
+    }
+
+    public void showEndingScene(ActionEvent event) throws Exception {
+        winSfxPlayer.seek(winSfxPlayer.getStartTime()); // Reset to start
+        winSfxPlayer.play();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ending_scene.fxml"));
+        loader.setControllerFactory(param -> {
+            EndSceneController endScene = new EndSceneController();
+            endScene.setResult(result);
+            endScene.setWinner(winner);
+            return endScene;
+        });
+        root = loader.load();
+
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(false);
+        stage.setTitle("Da ist der Wurm Drin");
+        stage.setScene(scene);
+        stage.show();
+        mediaPlayer.stop();
     }
 }

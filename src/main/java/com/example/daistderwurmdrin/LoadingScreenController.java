@@ -36,7 +36,7 @@ public class LoadingScreenController {
 
 
     public void initialize() {
-        String finishLoadingSfx = new File("sfx/finish_loading.mp3").toURI().toString();
+        String finishLoadingSfx = new File("sfx/finishLoadingSfx.mp3").toURI().toString();
         Media finishLoadingSound = new Media(finishLoadingSfx);
         finishLoadingSfxPlayer = new MediaPlayer(finishLoadingSound);
 
@@ -69,7 +69,7 @@ public class LoadingScreenController {
 
     public void transitionIntoNextScene() {
         try {
-            root = FXMLLoader.load(HelloApplication.class.getResource("temptest.fxml"));
+            root = FXMLLoader.load(HelloApplication.class.getResource("menuScreen.fxml"));
 
             stage = (Stage) transitionMask.getScene().getWindow();
 

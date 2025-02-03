@@ -66,7 +66,7 @@ public class HelloController {
     Image unMute = new Image("unmute_image.png");
 
     public void initialize() {
-        String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
+        String song = new File("music\\menuMusic.mp3").toURI().toString();
         media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.1);
@@ -185,7 +185,7 @@ public class HelloController {
 
         //Load the fxml with the game
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
         loader.setControllerFactory(param -> {
             PigController pigController = new PigController();
             pigController.setDifficulty(difficulty);
@@ -195,8 +195,6 @@ public class HelloController {
 
         root = loader.load();
 
-
-        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setResizable(true);
@@ -210,7 +208,7 @@ public class HelloController {
     public void newMultiGame(ActionEvent event) throws IOException {
         //Load the fxml with the game
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("testGame3(main).fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
         loader.setControllerFactory(param -> {
             PigController pigController = new PigController();
             pigController.setDifficulty(difficulty);
@@ -220,7 +218,6 @@ public class HelloController {
 
         root = loader.load();
 
-        //root = FXMLLoader.load(HelloApplication.class.getResource("testGame3(main).fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setResizable(true);
