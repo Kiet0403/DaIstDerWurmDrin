@@ -73,13 +73,6 @@ public class EndSceneController{
         this.winner = winner;
     }
 
-    private void fadeInEffect() {
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), endingImage);
-        fadeIn.setFromValue(0);
-        fadeIn.setToValue(1);
-        fadeIn.play();
-    }
-
     public void restartGame(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("menuScreen.fxml"));
         root = loader.load();

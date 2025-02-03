@@ -1,7 +1,5 @@
 package com.example.daistderwurmdrin;
 import java.io.File;
-import java.io.IOException;
-import java.util.EventObject;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -28,18 +26,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class PigController{
+public class GameController {
 
     // Data Fields
     Random random = new Random();
-    Game pig;
-    HelloController hello;
+    Game game;
+    StartScreenController start;
     private Rectangle selectedBooster = null;
 
     @FXML private Scene scene;
@@ -165,9 +162,9 @@ public class PigController{
         Media winSound = new Media(winSfx);
         winSfxPlayer = new MediaPlayer(winSound);
 
-        hello = new HelloController();
+        start = new StartScreenController();
         clock = new Roller();
-        pig = new Game(playerNames, playerTypes, difficulty);
+        game = new Game(playerNames, playerTypes, difficulty);
 
         updateViews();
         holdButton.setDisable(true);
@@ -184,7 +181,7 @@ public class PigController{
     }
 
     private void setAvailablePieces(){
-        int[] availPieces=pig.getAvail();
+        int[] availPieces= game.getAvail();
         bluePieces.setText(Integer.toString(availPieces[0]));
         orangePieces.setText(Integer.toString(availPieces[1]));
         purplePieces.setText(Integer.toString(availPieces[2]));
@@ -263,10 +260,10 @@ public class PigController{
 
         setCheckpointVisibility();
         // Check if the selected booster belongs to the current player
-        if ((pig.getCurrent() == pig.getP1() && (booster == p1booster1 || booster == p1booster2)) ||
-            (pig.getCurrent() == pig.getP2() && (booster == p2booster1 || booster == p2booster2)) ||
-            (pig.getCurrent() == pig.getP3() && (booster == p3booster1 || booster == p3booster2)) ||
-            (pig.getCurrent() == pig.getP4() && (booster == p4booster1 || booster == p4booster2))) {
+        if ((game.getCurrent() == game.getP1() && (booster == p1booster1 || booster == p1booster2)) ||
+            (game.getCurrent() == game.getP2() && (booster == p2booster1 || booster == p2booster2)) ||
+            (game.getCurrent() == game.getP3() && (booster == p3booster1 || booster == p3booster2)) ||
+            (game.getCurrent() == game.getP4() && (booster == p4booster1 || booster == p4booster2))) {
             if (selectedBooster != null) {
                 selectedBooster.setStroke(null);
             }
@@ -338,56 +335,56 @@ public class PigController{
     }
 
     public void updateViews() {
-        setDieImage(pig.getDie().getTop());
+        setDieImage(game.getDie().getTop());
         //Check whether any player has reached a checkpoint
         checkpoints();
         // Update the score of each player
-        progress1 = (double) pig.getP1().getTotalScore() * 10;
+        progress1 = (double) game.getP1().getTotalScore() * 10;
         bar1.setPrefHeight(progress1);
 
-        progress2 = (double) pig.getP2().getTotalScore() * 10;
+        progress2 = (double) game.getP2().getTotalScore() * 10;
         bar2.setPrefHeight(progress2);
 
-        progress3 = (double) pig.getP3().getTotalScore() * 10;
+        progress3 = (double) game.getP3().getTotalScore() * 10;
         bar3.setPrefHeight(progress3);
 
-        progress4 = (double) pig.getP4().getTotalScore() * 10;
+        progress4 = (double) game.getP4().getTotalScore() * 10;
         bar4.setPrefHeight(progress4);
 
         // Update the background of current player to be green for clarity
-        if (pig.getCurrent() == pig.getP1()) {
+        if (game.getCurrent() == game.getP1()) {
             p1box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
             p2box.setBackground(null);
             p3box.setBackground(null);
             p4box.setBackground(null);
-        } else if (pig.getCurrent() == pig.getP2()) {
+        } else if (game.getCurrent() == game.getP2()) {
             p1box.setBackground(null);
             p2box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
             p3box.setBackground(null);
             p4box.setBackground(null);
-        } else if (pig.getCurrent() == pig.getP3()) {
+        } else if (game.getCurrent() == game.getP3()) {
             p1box.setBackground(null);
             p2box.setBackground(null);
             p3box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
             p4box.setBackground(null);
-        } else if (pig.getCurrent() == pig.getP4()) {
+        } else if (game.getCurrent() == game.getP4()) {
             p1box.setBackground(null);
             p2box.setBackground(null);
             p3box.setBackground(null);
             p4box.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
         }
         // Check if there are 0 piece left to place, resulting in a tie
-        if (pig.gameOverTie()){
+        if (game.gameOverTie()){
             gamePane.setVisible(false);
             resultButton.setVisible(true);
             setResult("tie");
         }
         //Check if a player has won the game
-        if (pig.gameOver()){
+        if (game.gameOver()){
             gamePane.setVisible(false);
             resultButton.setVisible(true);
             setResult("win");
-            setWinner(pig.getCurrent().getName());
+            setWinner(game.getCurrent().getName());
         }
         setAvailablePieces();
     }
@@ -407,14 +404,14 @@ public class PigController{
     }
     // Roll the die and record the value
     public void roll() {
-        pig.roll();
+        game.roll();
         dieImage.setDisable(true);
         holdButton.setDisable(false);
         updateViews();
     }
     // Pass the turn
     public void hold() {
-        pig.hold();
+        game.hold();
         dieImage.setDisable(false);
         holdButton.setDisable(true);
         updateViews();
@@ -423,13 +420,13 @@ public class PigController{
     }
 
     public void checkpoints(){
-        pig.checkProgress();
+        game.checkProgress();
     }
 
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
-        Player currentPlayer = pig.getCurrent();
-        Player targetPlayer = pig.getTargetPlayer(targetPlayerIndex);
-        pig.gamePlaceBooster(currentPlayer, targetPlayer, checkpoint);
+        Player currentPlayer = game.getCurrent();
+        Player targetPlayer = game.getTargetPlayer(targetPlayerIndex);
+        game.gamePlaceBooster(currentPlayer, targetPlayer, checkpoint);
         String message = currentPlayer.getName() + " placed a booster on " + targetPlayer.getName() + " at " + checkpoint;
         System.out.println(message);
         showNotification(currentPlayer.getName(), targetPlayer.getName(), checkpoint);
@@ -438,7 +435,7 @@ public class PigController{
 
     public void checkBots() {
         //Check if the current player is a bot
-        if (pig.getCurrent() instanceof Bot) {
+        if (game.getCurrent() instanceof Bot) {
 
             //Roll the dice
             rollAnimation();
@@ -451,7 +448,7 @@ public class PigController{
             switch (difficulty){
                 // Easy case: The bot just bet on random people
                 case "Easy": {
-                    if (pig.checkNumBooster()){
+                    if (game.checkNumBooster()){
                         int randomTargetCheckpoint1 = random.nextInt(3);
                         int randomTargetCheckpoint2 = random.nextInt(3);
                         
@@ -464,9 +461,9 @@ public class PigController{
 
                 // Medium case: the bot bets on itself
                 case "Medium": {
-                    if (pig.checkNumBooster()) {
-                        placeBooster(pig.getCurrentPlayerIndex(), "1");
-                        placeBooster(pig.getCurrentPlayerIndex(), "2");
+                    if (game.checkNumBooster()) {
+                        placeBooster(game.getCurrentPlayerIndex(), "1");
+                        placeBooster(game.getCurrentPlayerIndex(), "2");
                         System.out.println("Placed in 1 and 2 medium mode");
                     }
                     break;
@@ -474,9 +471,9 @@ public class PigController{
 
                 // Hard case: the bot uses an optimization algorithm for betting
                 case "Hard": {
-                    if (pig.checkNumBooster()) {
-                        pig.OptimizeBoosters1();
-                        pig.OptimizeBoosters2();
+                    if (game.checkNumBooster()) {
+                        game.OptimizeBoosters1();
+                        game.OptimizeBoosters2();
                     }
                     break;
                 }
@@ -507,23 +504,23 @@ public class PigController{
     }
 
     public void disableBotBoosters() {
-        if (pig.getCurrent() instanceof Bot) {
-            if (pig.getCurrent() == pig.getP1()) {
+        if (game.getCurrent() instanceof Bot) {
+            if (game.getCurrent() == game.getP1()) {
                 p1booster1.setDisable(true);
                 p1booster1.setFill(Color.GREY);
                 p1booster2.setDisable(true);
                 p1booster2.setFill(Color.GREY);
-            } else if (pig.getCurrent() == pig.getP2()) {
+            } else if (game.getCurrent() == game.getP2()) {
                 p2booster1.setDisable(true);
                 p2booster1.setFill(Color.GREY);
                 p2booster2.setDisable(true);
                 p2booster2.setFill(Color.GREY);
-            } else if (pig.getCurrent() == pig.getP3()) {
+            } else if (game.getCurrent() == game.getP3()) {
                 p3booster1.setDisable(true);
                 p3booster1.setFill(Color.GREY);
                 p3booster2.setDisable(true);
                 p3booster2.setFill(Color.GREY);
-            } else if (pig.getCurrent() == pig.getP4()) {
+            } else if (game.getCurrent() == game.getP4()) {
                 p4booster1.setDisable(true);
                 p4booster1.setFill(Color.GREY);
                 p4booster2.setDisable(true);
@@ -531,10 +528,6 @@ public class PigController{
             }
         }
     }
-    public Stage getStage() {
-        return (Stage) holdButton.getScene().getWindow();
-    }
-
     public void showEndingScene(ActionEvent event) throws Exception {
         winSfxPlayer.seek(winSfxPlayer.getStartTime()); // Reset to start
         winSfxPlayer.play();

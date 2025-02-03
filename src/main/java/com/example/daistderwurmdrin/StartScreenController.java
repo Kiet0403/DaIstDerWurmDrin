@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,10 +23,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.stage.Modality;
 
-public class HelloController {
+public class StartScreenController {
 
-    @FXML private Button quitButton;
     @FXML private Button playButton;
+    @FXML private Button quitButton;
+    @FXML private Button infoButton;
     @FXML private Button muteButton;
     @FXML private Button easyButton;
     @FXML private Button mediumButton;
@@ -35,7 +35,7 @@ public class HelloController {
     @FXML private Button backButton;
     @FXML private Button singleplayerButton;
     @FXML private Button multiplayerButton;
-    @FXML private Button infoButton;
+
 
     @FXML private GridPane background1;
     @FXML private GridPane background2;
@@ -58,7 +58,6 @@ public class HelloController {
 
     public String difficulty;
 
-    private double backgroundHeight;
     private boolean isMuted = false;
     // Display the image in the start interface
 
@@ -187,7 +186,7 @@ public class HelloController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
         loader.setControllerFactory(param -> {
-            PigController pigController = new PigController();
+            GameController pigController = new GameController();
             pigController.setDifficulty(difficulty);
             pigController.setPlayerTypes(new String[]{"human", "bot", "bot", "bot"});
             return pigController;
@@ -210,7 +209,7 @@ public class HelloController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
         loader.setControllerFactory(param -> {
-            PigController pigController = new PigController();
+            GameController pigController = new GameController();
             pigController.setDifficulty(difficulty);
             pigController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
             return pigController;

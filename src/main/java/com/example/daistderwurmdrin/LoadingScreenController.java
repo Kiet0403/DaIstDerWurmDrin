@@ -6,13 +6,10 @@ import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -69,7 +66,7 @@ public class LoadingScreenController {
 
     public void transitionIntoNextScene() {
         try {
-            root = FXMLLoader.load(HelloApplication.class.getResource("menuScreen.fxml"));
+            root = FXMLLoader.load(Application.class.getResource("menuScreen.fxml"));
 
             stage = (Stage) transitionMask.getScene().getWindow();
 

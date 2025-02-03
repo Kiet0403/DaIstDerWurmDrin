@@ -2,7 +2,6 @@ package com.example.daistderwurmdrin;
 
 import java.io.IOException;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,10 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-public class HelloApplication extends Application {
+public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(HelloApplication.class.getResource("loading_screen.fxml"));
+        Parent root = FXMLLoader.load(Application.class.getResource("loading_screen.fxml"));
         Scene scene = new Scene(root, Color.LIGHTCYAN);
         stage.setResizable(true);
         stage.setTitle("Da ist der Wurm Drin");
@@ -26,9 +25,6 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-
-
     public static void main(String[] args) {
         launch();
     }
