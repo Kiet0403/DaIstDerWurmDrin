@@ -391,15 +391,13 @@ public class PigController{
         }
         setAvailablePieces();
     }
-    // Ste dice image corresponding to the die value
-    // Ste dice image corresponding to the die value
+    // Set dice image corresponding to the die value
     public void setDieImage(int top) {
         // File f = new File("src/main/resources/Dice" + top + ".png");
         
         File f = new File("src\\main\\resources\\Dice" + top + ".png");
         dieImage.setImage(new Image(f.toURI().toString()));
     }
-    // Die rolling animation
     // Die rolling animation
     public void rollAnimation() {
         clock.start();
@@ -467,15 +465,8 @@ public class PigController{
                 // Medium case: the bot bets on itself
                 case "Medium": {
                     if (pig.checkNumBooster()) {
-                        
-                        // placeBooster(pig.getCurrentPlayerIndex(), "1");
-                        PauseTransition pause4 = new PauseTransition(Duration.seconds(3));
-                        pause4.setOnFinished(Event -> placeBooster(pig.getCurrentPlayerIndex(), "1"));
-                        pause4.play();
-
-                        PauseTransition pause5 = new PauseTransition(Duration.seconds(3));
-                        pause5.setOnFinished(Event -> placeBooster(pig.getCurrentPlayerIndex(), "2"));
-                        pause5.play();
+                        placeBooster(pig.getCurrentPlayerIndex(), "1");
+                        placeBooster(pig.getCurrentPlayerIndex(), "2");
                         System.out.println("Placed in 1 and 2 medium mode");
                     }
                     break;
@@ -484,26 +475,17 @@ public class PigController{
                 // Hard case: the bot uses an optimization algorithm for betting
                 case "Hard": {
                     if (pig.checkNumBooster()) {
-                        PauseTransition pause6 = new PauseTransition(Duration.seconds(3));
-                        pause6.setOnFinished( Event -> pig.OptimizeBoosters1());
-                        pause6.play();
-                        
-                        PauseTransition pause7 = new PauseTransition(Duration.seconds(3));
-                        pause7.setOnFinished( Event -> pig.OptimizeBoosters2());
-                        pause7.play();
+                        pig.OptimizeBoosters1();
+                        pig.OptimizeBoosters2();
                     }
                     break;
                 }
-                
-                default:
-                    break;
             }
-
             // Disable boosters if the current player is a bot
             disableBotBoosters();
 
             //End the turn and pass to the next player
-            PauseTransition pause10 = new PauseTransition(Duration.seconds(3)); // Delay of 3 second between each bots round for player to process
+            PauseTransition pause10 = new PauseTransition(Duration.seconds(4)); // Delay of 4 second between each bots round for player to process
             pause10.setOnFinished(Event -> {
                 hold();});
             pause10.play();
