@@ -34,12 +34,4 @@ public class Die {
         top = 1 + (int)(Math.random() * sides);
     }
 
-    public static void main(String[] args) {
-        Die d = new Die(6, 1);
-        System.out.println(d.getTop());
-        for (int i = 0; i < 10; i++) {
-            d.roll();
-            System.out.println(i + ": " + d.getTop());
-        }
-    }
 }

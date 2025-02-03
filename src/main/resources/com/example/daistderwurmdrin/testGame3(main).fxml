@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -133,10 +132,23 @@
                   </GridPane>
                   <VBox StackPane.alignment="CENTER">
                      <children>
+<<<<<<< Updated upstream
                         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background.png'); -fx-background-size: cover;" VBox.vgrow="ALWAYS">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+=======
+                        <GridPane layoutX="70.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background3.png'); -fx-background-size: cover;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
+>>>>>>> Stashed changes
                            <VBox.margin>
                               <Insets bottom="35.0" left="30.0" right="30.0" top="35.0" />
                            </VBox.margin>
@@ -145,6 +157,23 @@
                            <VBox.margin>
                               <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
                            </VBox.margin>
+<<<<<<< Updated upstream
+=======
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background2.png'); -fx-background-size: cover;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
+>>>>>>> Stashed changes
                            <children>
                               <Rectangle fx:id="checkpoint1_2" fill="BLACK" height="20.0" layoutX="37.0" layoutY="14.0" width="20.0" />
                               <Rectangle fx:id="checkpoint2_2" fill="BLACK" height="20.0" layoutX="236.0" layoutY="14.0" width="20.0" />
@@ -156,6 +185,23 @@
                            <VBox.margin>
                               <Insets bottom="40.0" left="30.0" right="30.0" top="35.0" />
                            </VBox.margin>
+<<<<<<< Updated upstream
+=======
+                           <padding>
+                              <Insets left="-30.0" right="-30.0" />
+                           </padding>
+                        </GridPane>
+                        <GridPane layoutX="65.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background1.png'); -fx-background-size: cover;" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="ALWAYS" />
+                           </rowConstraints>
+>>>>>>> Stashed changes
                            <children>
                               <Rectangle fx:id="checkpoint1_1" fill="BLACK" height="20.0" layoutX="37.0" layoutY="11.0" width="20.0" />
                               <Rectangle fx:id="checkpoint2_1" fill="BLACK" height="20.0" layoutX="233.0" layoutY="10.0" width="20.0" />
