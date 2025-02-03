@@ -28,7 +28,7 @@ public class Application extends javafx.application.Application {
         stage.setResizable(true);
         stage.setTitle("Da ist der Wurm Drin");
 
-        Image icon = new Image("weasel ump9.png");
+        Image icon = new Image("icon.jpg");
         stage.getIcons().add(icon);
         stage.setFullScreen(false);
         stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Esc"));
