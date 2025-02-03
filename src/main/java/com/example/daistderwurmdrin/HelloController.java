@@ -65,7 +65,6 @@ public class HelloController {
     Image Mute = new Image("mute_image.png");
     Image unMute = new Image("unmute_image.png");
 
-    //Loading preset Song library in Music
     public void initialize() {
         String song = new File("music\\girls-frontline-shattered-connexion-ed-connexion.mp3").toURI().toString();
         media = new Media(song);

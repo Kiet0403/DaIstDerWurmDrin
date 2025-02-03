@@ -1,13 +1,18 @@
 package com.example.daistderwurmdrin;
-
 import java.io.File;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -36,7 +41,6 @@ public class PigController{
     @FXML Button holdButton;
 
 
-
     @FXML VBox p1box;
     @FXML VBox p2box;
     @FXML VBox p3box;
@@ -53,14 +57,23 @@ public class PigController{
     @FXML Rectangle p4booster1;
     @FXML Rectangle p4booster2;
 
+    @FXML ImageView p1booster1Image;
+    @FXML ImageView p1booster2Image;
+    @FXML ImageView p2booster1Image;
+    @FXML ImageView p2booster2Image;
+    @FXML ImageView p3booster1Image;
+    @FXML ImageView p3booster2Image;
+    @FXML ImageView p4booster1Image;
+    @FXML ImageView p4booster2Image;
+
     @FXML Rectangle checkpoint1_1;
     @FXML Rectangle checkpoint1_2;
+    @FXML Rectangle checkpoint1_3;
+    @FXML Rectangle checkpoint1_4;
     @FXML Rectangle checkpoint2_1;
     @FXML Rectangle checkpoint2_2;
-    @FXML Rectangle checkpoint3_1;
-    @FXML Rectangle checkpoint3_2;
-    @FXML Rectangle checkpoint4_1;
-    @FXML Rectangle checkpoint4_2;
+    @FXML Rectangle checkpoint2_3;
+    @FXML Rectangle checkpoint2_4;
 
     @FXML VBox progressBar1;
     @FXML VBox progressBar2;
@@ -123,17 +136,53 @@ public class PigController{
         updateViews();
         holdButton.setDisable(true);
         checkpoints = new Rectangle[][] {
-            {checkpoint1_1, checkpoint1_2},
-            {checkpoint2_1, checkpoint2_2},
-            {checkpoint3_1, checkpoint3_2},
-            {checkpoint4_1, checkpoint4_2}
+            {checkpoint1_1, checkpoint2_1},
+            {checkpoint1_2, checkpoint2_2},
+            {checkpoint1_3, checkpoint2_3},
+            {checkpoint1_4, checkpoint2_4}
         };
         
         addBoosterEventHandlers();
         addCheckpointEventHandlers();
+        bindCheckpoints();
     }
 
-    
+    private void greyOutBoosterImage(ImageView boosterImage) {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setSaturation(-1); // Set saturation to -1 to grey out the image
+        boosterImage.setEffect(colorAdjust);
+    }
+
+    private void showNotification(String currentPlayerName, String targetPlayerName, String checkpoint) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Booster Placed");
+            alert.setHeaderText(null);
+            alert.setContentText(currentPlayerName + " placed a booster on " + targetPlayerName + " at " + checkpoint);
+            alert.showAndWait();
+        });
+    }
+
+    private void bindCheckpoints() {
+        double scaleFactor = 10; // Configurable scale factor
+        for (Rectangle[] checkpointPair : checkpoints) {
+            for (Rectangle checkpoint : checkpointPair) {
+                if (checkpoint.getParent() != null) {
+                    // Bind width and height to ensure a square shape
+                    checkpoint.widthProperty().bind(Bindings.createDoubleBinding(
+                        () -> {
+                            Bounds bounds = checkpoint.getParent().layoutBoundsProperty().get();
+                            return Math.min(bounds.getWidth(), bounds.getHeight()) / scaleFactor;
+                        },
+                        checkpoint.getParent().layoutBoundsProperty()
+                    ));
+
+                    checkpoint.heightProperty().bind(checkpoint.widthProperty()); // Keep the square ratio
+                }
+            }
+        }
+    }
+
     private void addBoosterEventHandlers() {
         p1booster1.setOnMouseClicked(event -> selectBooster(p1booster1));
         p1booster2.setOnMouseClicked(event -> selectBooster(p1booster2));
@@ -171,11 +220,50 @@ public class PigController{
         if (selectedBooster == null) {
             return;
         }
-        selectedBooster.setFill(Color.GREY);
-        selectedBooster.setDisable(true);
-        placeBooster(targetPlayerIndex, checkpoint);
-        selectedBooster.setStroke(null);
-        selectedBooster = null;
+        // Check if the selected booster can be placed on the selected checkpoint
+        if ((checkpoint.equals("1") && (selectedBooster == p1booster1 || selectedBooster == p2booster1 || selectedBooster == p3booster1 || selectedBooster == p4booster1)) ||
+            (checkpoint.equals("2") && (selectedBooster == p1booster2 || selectedBooster == p2booster2 || selectedBooster == p3booster2 || selectedBooster == p4booster2))) {
+            
+            selectedBooster.setFill(Color.GREY);
+            selectedBooster.setDisable(true);
+            placeBooster(targetPlayerIndex, checkpoint);
+            selectedBooster.setStroke(null);
+            selectedBooster = null;
+
+            if (selectedBooster == p1booster1) {
+                greyOutBoosterImage(p1booster1Image);
+            } else if (selectedBooster == p1booster2) {
+                greyOutBoosterImage(p1booster2Image);
+            } else if (selectedBooster == p2booster1) {
+                greyOutBoosterImage(p2booster1Image);
+            } else if (selectedBooster == p2booster2) {
+                greyOutBoosterImage(p2booster2Image);
+            } else if (selectedBooster == p3booster1) {
+                greyOutBoosterImage(p3booster1Image);
+            } else if (selectedBooster == p3booster2) {
+                greyOutBoosterImage(p3booster2Image);
+            } else if (selectedBooster == p4booster1) {
+                greyOutBoosterImage(p4booster1Image);
+            } else if (selectedBooster == p4booster2) {
+                greyOutBoosterImage(p4booster2Image);
+            }
+
+            // Disable boosters if the current player is a bot
+            disableBotBoosters();
+        } else {
+            // Show an alert if the booster cannot be placed on the selected checkpoint
+            showInvalidBoosterPlacementAlert();
+        }
+    }
+
+    private void showInvalidBoosterPlacementAlert() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid Booster Placement");
+            alert.setHeaderText(null);
+            alert.setContentText("The selected booster cannot be placed on the selected checkpoint.");
+            alert.showAndWait();
+        });
     }
 
     public void updateViews() {
@@ -230,6 +318,7 @@ public class PigController{
         }
     }
     // Ste dice image corresponding to the die value
+    // Ste dice image corresponding to the die value
     public void setDieImage(int top) {
         // File f = new File("src/main/resources/Dice" + top + ".png");
         
@@ -237,9 +326,11 @@ public class PigController{
         dieImage.setImage(new Image(f.toURI().toString()));
     }
     // Die rolling animation
+    // Die rolling animation
     public void rollAnimation() {
         clock.start();
     }
+    // Roll the die and record the value
     // Roll the die and record the value
     public void roll() {
         pig.roll();
@@ -247,6 +338,7 @@ public class PigController{
         holdButton.setDisable(false);
         updateViews();
     }
+    // Pass the turn
     // Pass the turn
     public void hold() {
         pig.hold();
@@ -261,8 +353,12 @@ public class PigController{
     }
 
     public void placeBooster(int targetPlayerIndex, String checkpoint) {
-        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(targetPlayerIndex), checkpoint);
-        System.out.println("Booster placed by " + pig.getCurrent().getName() + " on Player " + (targetPlayerIndex + 1) + " at checkpoint " + checkpoint);
+        Player currentPlayer = pig.getCurrent();
+        Player targetPlayer = pig.getTargetPlayer(targetPlayerIndex);
+        pig.gamePlaceBooster(currentPlayer, targetPlayer, checkpoint);
+        String message = currentPlayer.getName() + " placed a booster on " + targetPlayer.getName() + " at " + checkpoint;
+        System.out.println(message);
+        showNotification(currentPlayer.getName(), targetPlayer.getName(), checkpoint);
         updateViews();
     }
 
@@ -273,54 +369,102 @@ public class PigController{
             //Roll the dice
             rollAnimation();
 
-            PauseTransition pause2 = new PauseTransition(Duration.millis(975)); // Action delay to diasble the hold button
-            pause2.setOnFinished(event -> {holdButton.setDisable(true);});
-            pause2.play();
+            PauseTransition pause = new PauseTransition(Duration.millis(975)); // Action delay to diasble the hold button
+            pause.setOnFinished(event -> {holdButton.setDisable(true);});
+            pause.play();
 
             //Betting algorithm based on difficulty
             switch (difficulty){
                 // Easy case: The bot just bet on random people
                 case "Easy": {
                     if (pig.checkNumBooster()){
-                        int RandomTargetCheckpoint1 = random.nextInt(3);
-                        int RandomTargetCheckpoint2 = random.nextInt(3);
-                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(RandomTargetCheckpoint1), "1");
-                        pig.gamePlaceBooster(pig.getCurrent(), pig.getTargetPlayer(RandomTargetCheckpoint2), "2");
+                        int randomTargetCheckpoint1 = random.nextInt(3);
+                        int randomTargetCheckpoint2 = random.nextInt(3);
+                        
+                        placeBooster(randomTargetCheckpoint1, "1");
+                        placeBooster(randomTargetCheckpoint2, "2");
                         System.out.println("Placed in 1 and 2 easy mode");
                     }
                 }
                     break;
+
                 // Medium case: the bot bets on itself
                 case "Medium": {
                     if (pig.checkNumBooster()) {
-                        pig.gamePlaceBooster(pig.getCurrent(), pig.getCurrent(), "1");
-                        pig.gamePlaceBooster(pig.getCurrent(), pig.getCurrent(), "2");
+                        
+                        // placeBooster(pig.getCurrentPlayerIndex(), "1");
+                        PauseTransition pause4 = new PauseTransition(Duration.seconds(3));
+                        pause4.setOnFinished(Event -> placeBooster(pig.getCurrentPlayerIndex(), "1"));
+                        pause4.play();
+
+                        PauseTransition pause5 = new PauseTransition(Duration.seconds(3));
+                        pause5.setOnFinished(Event -> placeBooster(pig.getCurrentPlayerIndex(), "2"));
+                        pause5.play();
                         System.out.println("Placed in 1 and 2 medium mode");
                     }
                     break;
                 }
+
                 // Hard case: the bot uses an optimization algorithm for betting
                 case "Hard": {
                     if (pig.checkNumBooster()) {
-                        pig.OptimizeBoosters1();
-                        pig.OptimizeBoosters2();
+                        PauseTransition pause6 = new PauseTransition(Duration.seconds(3));
+                        pause6.setOnFinished( Event -> pig.OptimizeBoosters1());
+                        pause6.play();
+                        
+                        PauseTransition pause7 = new PauseTransition(Duration.seconds(3));
+                        pause7.setOnFinished( Event -> pig.OptimizeBoosters2());
+                        pause7.play();
                     }
                     break;
                 }
+                
                 default:
                     break;
             }
+
+            // Disable boosters if the current player is a bot
+            disableBotBoosters();
+
             //End the turn and pass to the next player
-            PauseTransition pause = new PauseTransition(Duration.seconds(3)); // Delay of 3 second between each bots round for player to process
-            pause.setOnFinished(event -> {
+            PauseTransition pause10 = new PauseTransition(Duration.seconds(3)); // Delay of 3 second between each bots round for player to process
+            pause10.setOnFinished(Event -> {
                 hold();});
-            pause.play();
+            pause10.play();
+        
         }
     }
+    
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
     public void setPlayerTypes(String[] playerTypes) {
         this.playerTypes = playerTypes;
+    }
+
+    public void disableBotBoosters() {
+        if (pig.getCurrent() instanceof Bot) {
+            if (pig.getCurrent() == pig.getP1()) {
+                p1booster1.setDisable(true);
+                p1booster1.setFill(Color.GREY);
+                p1booster2.setDisable(true);
+                p1booster2.setFill(Color.GREY);
+            } else if (pig.getCurrent() == pig.getP2()) {
+                p2booster1.setDisable(true);
+                p2booster1.setFill(Color.GREY);
+                p2booster2.setDisable(true);
+                p2booster2.setFill(Color.GREY);
+            } else if (pig.getCurrent() == pig.getP3()) {
+                p3booster1.setDisable(true);
+                p3booster1.setFill(Color.GREY);
+                p3booster2.setDisable(true);
+                p3booster2.setFill(Color.GREY);
+            } else if (pig.getCurrent() == pig.getP4()) {
+                p4booster1.setDisable(true);
+                p4booster1.setFill(Color.GREY);
+                p4booster2.setDisable(true);
+                p4booster2.setFill(Color.GREY);
+            }
+        }
     }
 }
