@@ -243,7 +243,7 @@
                         </GridPane>
                         <VBox StackPane.alignment="CENTER">
                            <children>
-                              <GridPane layoutX="70.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background3.png');" VBox.vgrow="ALWAYS">
+                              <GridPane layoutX="70.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background3.png'); -fx-background-size: stretch;" VBox.vgrow="ALWAYS">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="ALWAYS" />
                                     <ColumnConstraints hgrow="ALWAYS" />
@@ -260,7 +260,7 @@
                                     <Insets left="-30.0" right="-30.0" />
                                  </padding>
                               </GridPane>
-                              <GridPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background2.png');" VBox.vgrow="ALWAYS">
+                              <GridPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background2.png'); -fx-background-size: stretch;" VBox.vgrow="ALWAYS">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="ALWAYS" />
                                     <ColumnConstraints hgrow="ALWAYS" />
@@ -283,7 +283,7 @@
                                     <Insets left="-30.0" right="-30.0" />
                                  </padding>
                               </GridPane>
-                              <GridPane layoutX="65.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background1.png');" VBox.vgrow="ALWAYS">
+                              <GridPane layoutX="65.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('checkpoint_background1.png'); -fx-background-size: stretch;" VBox.vgrow="ALWAYS">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="ALWAYS" />
                                     <ColumnConstraints hgrow="ALWAYS" />
