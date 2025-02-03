@@ -356,16 +356,16 @@ public class GameController {
         //Check whether any player has reached a checkpoint
         checkpoints();
         // Update the score of each player
-        progress1 = ((double) game.getP1().getTotalScore() + game.START_SCORE) * 12.5;
+        progress1 = ((double) game.getP1().getTotalScore() + game.START_SCORE) * 12;
         bar1.setPrefHeight(progress1);
 
-        progress2 = ((double) game.getP2().getTotalScore() + game.START_SCORE) * 12.5;
+        progress2 = ((double) game.getP2().getTotalScore() + game.START_SCORE) * 12;
         bar2.setPrefHeight(progress2);
 
-        progress3 = ((double) game.getP3().getTotalScore() + game.START_SCORE) * 12.5;
+        progress3 = ((double) game.getP3().getTotalScore() + game.START_SCORE) * 12;
         bar3.setPrefHeight(progress3);
 
-        progress4 = ((double) game.getP4().getTotalScore() + game.START_SCORE) * 12.5;
+        progress4 = ((double) game.getP4().getTotalScore() + game.START_SCORE) * 12;
         bar4.setPrefHeight(progress4);
 
         // Update the background of current player to be green for clarity

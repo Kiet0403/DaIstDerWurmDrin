@@ -12,7 +12,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.daistderwurmdrin.EndSceneController">
    <bottom>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane prefHeight="123.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -58,7 +58,7 @@
       <ImageView fx:id="endingTitle" fitHeight="58.0" fitWidth="404.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
    </top>
    <center>
-      <StackPane BorderPane.alignment="CENTER">
+      <StackPane prefHeight="255.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="endingImage" fitHeight="198.0" fitWidth="446.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="winnerImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />

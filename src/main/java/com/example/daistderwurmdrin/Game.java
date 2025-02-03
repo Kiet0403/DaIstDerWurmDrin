@@ -197,22 +197,22 @@ public class Game {
                 !p2checkpoint1 &&
                 !p3checkpoint1 &&
                 !p4checkpoint1) {
-            if (p1.getTotalScore() >= 0.3 * MAX_SCORE) {
+            if (p1.getTotalScore() >= 0.25 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 30%: true");
                 p1checkpoint1 = true;
                 checkBoosterAtCheckpoint(1, 0);
             }
-            if (p2.getTotalScore() >= 0.3 * MAX_SCORE) {
+            if (p2.getTotalScore() >= 0.25 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 30%: true");
                 p2checkpoint1 = true;
                 checkBoosterAtCheckpoint(1, 1);
             }
-            if(p3.getTotalScore() >= 0.3 * MAX_SCORE){
+            if(p3.getTotalScore() >= 0.25 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 30%: true");
                 p3checkpoint1 = true;
                 checkBoosterAtCheckpoint(1, 2);
             }
-            if(p4.getTotalScore() >= 0.3 * MAX_SCORE){
+            if(p4.getTotalScore() >= 0.25 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 30%: true");
                 p4checkpoint1 = true;
                 checkBoosterAtCheckpoint(1,3);
@@ -222,22 +222,22 @@ public class Game {
                 !p2checkpoint2 &&
                 !p3checkpoint2 &&
                 !p4checkpoint2) {
-            if (p1.getTotalScore() >= 0.6 * MAX_SCORE) {
+            if (p1.getTotalScore() >= 0.65 * MAX_SCORE) {
                 System.out.println("Player 1 progress bar reached 70%: true");
                 p1checkpoint2 = true;
                 checkBoosterAtCheckpoint(2, 0);
             }
-            if (p2.getTotalScore() >= 0.6 * MAX_SCORE) {
+            if (p2.getTotalScore() >= 0.65 * MAX_SCORE) {
                 System.out.println("Player 2 progress bar reached 70%: true");
                 p2checkpoint2 = true;
                 checkBoosterAtCheckpoint(2,1 );
             }
-            if(p3.getTotalScore() >= 0.6 * MAX_SCORE){
+            if(p3.getTotalScore() >= 0.65 * MAX_SCORE){
                 System.out.println("Player 3 progress bar reached 70%: true");
                 p3checkpoint2 = true;
                 checkBoosterAtCheckpoint(2,2);
             }
-            if(p4.getTotalScore() >= 0.6 * MAX_SCORE){
+            if(p4.getTotalScore() >= 0.65 * MAX_SCORE){
                 System.out.println("Player 4 progress bar reached 70%: true");
                 p4checkpoint2 = true;
                 checkBoosterAtCheckpoint(2,3);
