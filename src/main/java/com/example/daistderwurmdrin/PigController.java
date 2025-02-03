@@ -48,6 +48,13 @@ public class PigController{
 
     @FXML Label title;
 
+    @FXML Label bluePieces;
+    @FXML Label orangePieces;
+    @FXML Label purplePieces;
+    @FXML Label yellowPieces;
+    @FXML Label greenPieces;
+    @FXML Label redPieces;
+
     @FXML Rectangle p1booster1;
     @FXML Rectangle p1booster2;
     @FXML Rectangle p2booster1;
@@ -147,6 +154,16 @@ public class PigController{
         bindCheckpoints();
     }
 
+    private void setAvailablePieces(){
+        int[] availPieces=pig.getAvail();
+        bluePieces.setText(Integer.toString(availPieces[0]));
+        orangePieces.setText(Integer.toString(availPieces[1]));
+        purplePieces.setText(Integer.toString(availPieces[2]));
+        yellowPieces.setText(Integer.toString(availPieces[3]));
+        greenPieces.setText(Integer.toString(availPieces[4]));
+        redPieces.setText(Integer.toString(availPieces[5]));
+    }
+
     private void greyOutBoosterImage(ImageView boosterImage) {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-1); // Set saturation to -1 to grey out the image
@@ -202,7 +219,20 @@ public class PigController{
         }
     }
 
+    private void setCheckpointVisibility(){
+        checkpoint1_1.setVisible(false);
+        checkpoint1_2.setVisible(false);
+        checkpoint1_3.setVisible(false);
+        checkpoint1_4.setVisible(false);
+        checkpoint2_1.setVisible(false);
+        checkpoint2_2.setVisible(false);
+        checkpoint2_3.setVisible(false);
+        checkpoint2_4.setVisible(false);
+    }
+
     private void selectBooster(Rectangle booster) {
+
+        setCheckpointVisibility();
         // Check if the selected booster belongs to the current player
         if ((pig.getCurrent() == pig.getP1() && (booster == p1booster1 || booster == p1booster2)) ||
             (pig.getCurrent() == pig.getP2() && (booster == p2booster1 || booster == p2booster2)) ||
@@ -213,6 +243,18 @@ public class PigController{
             }
             selectedBooster = booster;
             selectedBooster.setStroke(Color.BLACK);
+            if(booster == p1booster1||booster == p2booster1||booster == p3booster1||booster == p4booster1 ){
+                checkpoint1_1.setVisible(true);
+                checkpoint1_2.setVisible(true);
+                checkpoint1_3.setVisible(true);
+                checkpoint1_4.setVisible(true);
+            }
+            if(booster == p1booster2||booster == p2booster2||booster == p3booster2||booster == p4booster2){
+                checkpoint2_1.setVisible(true);
+                checkpoint2_2.setVisible(true);
+                checkpoint2_3.setVisible(true);
+                checkpoint2_4.setVisible(true);
+            }
         }
     }
 
@@ -316,6 +358,7 @@ public class PigController{
             holdButton.setDisable(true);
             dieImage.setDisable(true);
         }
+        setAvailablePieces();
     }
     // Ste dice image corresponding to the die value
     // Ste dice image corresponding to the die value
@@ -331,7 +374,6 @@ public class PigController{
         clock.start();
     }
     // Roll the die and record the value
-    // Roll the die and record the value
     public void roll() {
         pig.roll();
         dieImage.setDisable(true);
@@ -339,12 +381,12 @@ public class PigController{
         updateViews();
     }
     // Pass the turn
-    // Pass the turn
     public void hold() {
         pig.hold();
         dieImage.setDisable(false);
         holdButton.setDisable(true);
         updateViews();
+        setCheckpointVisibility();
         checkBots();
     }
 

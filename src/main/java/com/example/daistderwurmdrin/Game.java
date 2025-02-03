@@ -280,6 +280,10 @@ public class Game {
         }
     }
 
+    public int[] getAvail() {
+        return avail;
+    }
+
     public void OptimizeBoosters1(){
         for (int i = 0; i < 4; i++) {
             if (getTargetPlayer(i).getTotalScore() >= 0.2 * MAX_SCORE){
