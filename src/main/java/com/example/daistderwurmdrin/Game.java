@@ -1,3 +1,17 @@
+/** * OOP Java Project
+
+ * Children Board Game Simulation:  Da ist der Wurm drin
+
+ * Link: https://www.amazon.de/Zoch-601132100-Wurm-Kinderspiel-Jahres/dp/B004L87UQO?th=1;
+ * https://www.youtube.com/watch?v=kD8JI8RpTFM;
+
+ * @author Van Tuan Kiet Vo - 1589900
+
+ * @author Duy Nguyen - 1584439
+
+ */
+
+
 package com.example.daistderwurmdrin;
 
 import java.util.ArrayList;
@@ -6,8 +20,9 @@ import java.util.List;
 
 public class Game {
 
-    public static final int MAX_SCORE = 64;
+    public static final int MAX_SCORE = 50;
     public static final int BONUS_POINTS = 3;
+    public static final int START_SCORE = 3;
 
     // Data Fields
     private com.example.daistderwurmdrin.Die d;

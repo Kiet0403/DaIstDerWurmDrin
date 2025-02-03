@@ -1,3 +1,17 @@
+/** * OOP Java Project
+
+ * Children Board Game Simulation:  Da ist der Wurm drin
+
+ * Link: https://www.amazon.de/Zoch-601132100-Wurm-Kinderspiel-Jahres/dp/B004L87UQO?th=1;
+ * https://www.youtube.com/watch?v=kD8JI8RpTFM;
+
+ * @author Van Tuan Kiet Vo - 1589900
+
+ * @author Truong Anh Tuan Nguyen - 1589760
+
+ */
+
+
 package com.example.daistderwurmdrin;
 
 public class Player {
@@ -45,59 +59,42 @@ public class Player {
             totalBoosters--;
         }
     }
-
+    // Check if the player still have any booster
     public boolean hasBoosters(){
         return totalBoosters > 0;
     }
-
+    // Mark the checkpoints that are used by the Player
     public void usedCheckpoint(String checkpoint) {
         int ckpt = Integer.parseInt(checkpoint);
         usedCheckpoints[ckpt] = true;
     }
 
+    // Check if the checkpoint has been used
     public boolean hasUsedCheckpoint(String checkpoint) {
         int ckpt = Integer.parseInt(checkpoint);
         return usedCheckpoints[ckpt];
     }
-
+    // Update the turn by adding the player roll score
     public void updateTurn(int roll) {
         turnScore += roll;
     }
-
+    // Saving the player score after rolling
     public void saveScore() {
         totalScore += turnScore;
         resetTurnScore();
     }
-
+    // Award the player with points when they correctly predicts
     public void addBonusPoints(int points) {
         totalScore = totalScore + points;
     }
-
-    public static void main(String[] args) {
-        Die d = new Die(6, 1);
-        Player p = new Player("Mark");
-        System.out.println("Turn Score: " + p.getTurnScore());
-        System.out.println("Total Score: " + p.getTotalScore());
-        System.out.println("Rolling...");
-        for (int i = 0; i < 10; i++) {
-            d.roll();
-            p.updateTurn(d.getTop());
-            System.out.println("Turn Score: " + p.getTurnScore());
-            System.out.println("Total Score: " + p.getTotalScore());
-        }
-        p.saveScore();
-        System.out.println("Saving...");
-        System.out.println("Turn Score: " + p.getTurnScore());
-        System.out.println("Total Score: " + p.getTotalScore());
-    }
 }
-
+// Declare Human type player
 class HumanPlayer extends Player{
     public HumanPlayer(String name) {
         super(name);
     }
 }
-
+// Declare Bot type player
 class Bot extends Player {
     public String difficulty;
     Bot(String difficulty, String name) {

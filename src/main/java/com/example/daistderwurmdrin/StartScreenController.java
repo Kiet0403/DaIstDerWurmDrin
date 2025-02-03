@@ -1,3 +1,18 @@
+/** * OOP Java Project
+
+ * Children Board Game Simulation:  Da ist der Wurm drin
+
+ * Link: https://www.amazon.de/Zoch-601132100-Wurm-Kinderspiel-Jahres/dp/B004L87UQO?th=1;
+ * https://www.youtube.com/watch?v=kD8JI8RpTFM;
+
+ * @author Van Tuan Kiet Vo - 1589900
+
+ * @author Truong Anh Tuan Nguyen - 1589760
+
+ * @author Duy Nguyen - 1584439
+
+ */
+
 package com.example.daistderwurmdrin;
 
 import java.io.File;
@@ -104,16 +119,17 @@ public class StartScreenController {
         }
         isMuted = !isMuted; // Toggle the state
     }
-
+    // Add sfx when hovering on buttons
     public void onHover(){
         hoverSfxPlayer.seek(hoverSfxPlayer.getStartTime()); // Reset to start
         hoverSfxPlayer.play();
     }
+    // Add sfx when clicking on buttons
     public void onClick(){
         clickSfxPlayer.seek(clickSfxPlayer.getStartTime()); // Reset to start
         clickSfxPlayer.play();
     }
-
+    // Transition upward to the choose difficulty pane
     public void rollUpBackground() {
         double height = background1.getHeight(); // Get the height of the background
 
@@ -133,7 +149,7 @@ public class StartScreenController {
         //Hide the first background after animation completes
         transition1.setOnFinished(event -> background1.setVisible(false));
     }
-
+    // Opens the instruction pop-up
     public void openInstruction() throws Exception {
         // Load the popup FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("instruction.fxml"));
@@ -143,10 +159,10 @@ public class StartScreenController {
         popupStage.setResizable(false);
         popupStage.initModality(Modality.APPLICATION_MODAL); // Makes the popup block other windows
         popupStage.setTitle("Instructions");
-        popupStage.setScene(new Scene(root, 861.6, 632)); // Adjust size to fit book layout
+        popupStage.setScene(new Scene(root, 861.6, 632)); // Adjust size
         popupStage.show();
     }
-
+    // Let player choose the game mode
     public void chooseGameMode(ActionEvent event) {
         playButton.setVisible(false);
 
@@ -183,7 +199,6 @@ public class StartScreenController {
         }
 
         //Load the fxml with the game
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
         loader.setControllerFactory(param -> {
             GameController pigController = new GameController();
@@ -208,11 +223,12 @@ public class StartScreenController {
         //Load the fxml with the game
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
+        // pass the player type to the gameController so that it can initialize properly
         loader.setControllerFactory(param -> {
-            GameController pigController = new GameController();
-            pigController.setDifficulty(difficulty);
-            pigController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
-            return pigController;
+            GameController gameController = new GameController();
+            gameController.setDifficulty(difficulty);
+            gameController.setPlayerTypes(new String[]{"human", "human", "human", "human"});
+            return gameController;
         });
 
         root = loader.load();

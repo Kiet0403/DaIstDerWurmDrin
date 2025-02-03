@@ -1,3 +1,15 @@
+/** * OOP Java Project
+
+ * Children Board Game Simulation:  Da ist der Wurm drin
+
+ * Link: https://www.amazon.de/Zoch-601132100-Wurm-Kinderspiel-Jahres/dp/B004L87UQO?th=1;
+ * https://www.youtube.com/watch?v=kD8JI8RpTFM;
+
+ * @author Truong Anh Tuan Nguyen - 1589760
+
+ */
+
+
 package com.example.daistderwurmdrin;
 
 import javafx.event.ActionEvent;

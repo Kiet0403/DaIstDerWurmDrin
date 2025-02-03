@@ -1,3 +1,19 @@
+/** * OOP Java Project
+
+ * Children Board Game Simulation:  Da ist der Wurm drin
+
+ * Link: https://www.amazon.de/Zoch-601132100-Wurm-Kinderspiel-Jahres/dp/B004L87UQO?th=1;
+ * https://www.youtube.com/watch?v=kD8JI8RpTFM;
+
+ * @author Van Tuan Kiet Vo - 1589900
+
+ * @author Truong Anh Tuan Nguyen - 1589760
+
+ * @author Duy Nguyen - 1584439
+
+ */
+
+
 package com.example.daistderwurmdrin;
 import java.io.File;
 import java.util.Random;
@@ -143,17 +159,16 @@ public class GameController {
             }
         }
     }
-
-    @FXML
-    public void initialize() {
-
+    // Initialize by loading resources: music, sfx, images, animations.
+    @FXML public void initialize() {
+        //Initialize music
         String song = new File("music\\gameMusic.mp3").toURI().toString();
         media = new Media(song);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.1);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setAutoPlay(true);
-
+        // Initialize sfx
         String dieSfx = new File("sfx/diceSfx.mp3").toURI().toString();
         Media dieSound = new Media(dieSfx);
         dieSfxPlayer = new MediaPlayer(dieSound);
@@ -161,25 +176,27 @@ public class GameController {
         String winSfx = new File("sfx/winSfx.mp3").toURI().toString();
         Media winSound = new Media(winSfx);
         winSfxPlayer = new MediaPlayer(winSound);
-
+        // Call objects
         start = new StartScreenController();
         clock = new Roller();
         game = new Game(playerNames, playerTypes, difficulty);
-
+        // Update the die image
         updateViews();
         holdButton.setDisable(true);
+
+        // Load the checkpoints
         checkpoints = new Rectangle[][] {
             {checkpoint1_1, checkpoint2_1},
             {checkpoint1_2, checkpoint2_2},
             {checkpoint1_3, checkpoint2_3},
             {checkpoint1_4, checkpoint2_4}
         };
-        
+        // Initialize the Boosters
         addBoosterEventHandlers();
         addCheckpointEventHandlers();
         bindCheckpoints();
     }
-
+    // Display the available pieces still in the game
     private void setAvailablePieces(){
         int[] availPieces= game.getAvail();
         bluePieces.setText(Integer.toString(availPieces[0]));
@@ -189,13 +206,13 @@ public class GameController {
         greenPieces.setText(Integer.toString(availPieces[4]));
         redPieces.setText(Integer.toString(availPieces[5]));
     }
-
+    //  Grey out boosters after usage
     private void greyOutBoosterImage(ImageView boosterImage) {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-1); // Set saturation to -1 to grey out the image
         boosterImage.setEffect(colorAdjust);
     }
-
+    // Show notifications when a player placed a booster
     private void showNotification(String currentPlayerName, String targetPlayerName, String checkpoint) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -205,7 +222,7 @@ public class GameController {
             alert.showAndWait();
         });
     }
-
+    // Bind the checkpoints to ensure that booster object scale with parent containers
     private void bindCheckpoints() {
         double scaleFactor = 10; // Configurable scale factor
         for (Rectangle[] checkpointPair : checkpoints) {
@@ -225,7 +242,7 @@ public class GameController {
             }
         }
     }
-
+    // Add the ability to select a booster on mouse click
     private void addBoosterEventHandlers() {
         p1booster1.setOnMouseClicked(event -> selectBooster(p1booster1));
         p1booster2.setOnMouseClicked(event -> selectBooster(p1booster2));
@@ -236,7 +253,7 @@ public class GameController {
         p4booster1.setOnMouseClicked(event -> selectBooster(p4booster1));
         p4booster2.setOnMouseClicked(event -> selectBooster(p4booster2));
     }
-
+    // Add the ability to select a checkpoint on mouse click
     private void addCheckpointEventHandlers() {
         for (int i = 0; i < checkpoints.length; i++) {
             int playerIndex = i;
@@ -244,7 +261,7 @@ public class GameController {
             checkpoints[i][1].setOnMouseClicked(event -> placeBoosterOnCheckpoint(playerIndex, "2"));
         }
     }
-
+    // set the default visibility of checkpoints to false
     private void setCheckpointVisibility(){
         checkpoint1_1.setVisible(false);
         checkpoint1_2.setVisible(false);
@@ -255,7 +272,7 @@ public class GameController {
         checkpoint2_3.setVisible(false);
         checkpoint2_4.setVisible(false);
     }
-
+    // Add the ability function when selecting a booster
     private void selectBooster(Rectangle booster) {
 
         setCheckpointVisibility();
@@ -283,7 +300,7 @@ public class GameController {
             }
         }
     }
-
+    // Add the methods when a booster is placed on a checkpoint
     private void placeBoosterOnCheckpoint(int targetPlayerIndex, String checkpoint) {
         if (selectedBooster == null) {
             return;
@@ -323,7 +340,7 @@ public class GameController {
             showInvalidBoosterPlacementAlert();
         }
     }
-
+    // Show an alert if a booster is placed incorrectly
     private void showInvalidBoosterPlacementAlert() {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.ERROR);
@@ -333,22 +350,22 @@ public class GameController {
             alert.showAndWait();
         });
     }
-
+    // Update the board state
     public void updateViews() {
         setDieImage(game.getDie().getTop());
         //Check whether any player has reached a checkpoint
         checkpoints();
         // Update the score of each player
-        progress1 = (double) game.getP1().getTotalScore() * 10;
+        progress1 = ((double) game.getP1().getTotalScore() + game.START_SCORE) * 12.5;
         bar1.setPrefHeight(progress1);
 
-        progress2 = (double) game.getP2().getTotalScore() * 10;
+        progress2 = ((double) game.getP2().getTotalScore() + game.START_SCORE) * 12.5;
         bar2.setPrefHeight(progress2);
 
-        progress3 = (double) game.getP3().getTotalScore() * 10;
+        progress3 = ((double) game.getP3().getTotalScore() + game.START_SCORE) * 12.5;
         bar3.setPrefHeight(progress3);
 
-        progress4 = (double) game.getP4().getTotalScore() * 10;
+        progress4 = ((double) game.getP4().getTotalScore() + game.START_SCORE) * 12.5;
         bar4.setPrefHeight(progress4);
 
         // Update the background of current player to be green for clarity
@@ -386,6 +403,7 @@ public class GameController {
             setResult("win");
             setWinner(game.getCurrent().getName());
         }
+        // Update the availability of the game pieces
         setAvailablePieces();
     }
     // Set dice image corresponding to the die value

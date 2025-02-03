@@ -195,45 +195,45 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                           </rowConstraints>
                            <children>
-                              <VBox fx:id="progressBar1" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="41.0" style="-fx-translate-y: 10;" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                              <VBox fx:id="progressBar1" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="41.0" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <VBox fx:id="bar1" prefHeight="369.0" prefWidth="39.0" style="-fx-background-image: url('player_worm1.png'); -fx-background-size: stretch;" />
+                                    <VBox fx:id="bar1" prefHeight="369.0" prefWidth="39.0" style="-fx-background-image: url('player_worm1.png'); -fx-background-size: stretch; -fx-translate-y: -25;" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="75.0" right="75.0" top="13.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <VBox fx:id="progressBar2" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" style="-fx-translate-y: 10;" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                              <VBox fx:id="progressBar2" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <VBox fx:id="bar2" prefHeight="338.0" prefWidth="39.0" style="-fx-background-image: url('player_worm2.png'); -fx-background-size: stretch;" />
+                                    <VBox fx:id="bar2" prefHeight="338.0" prefWidth="39.0" style="-fx-background-image: url('player_worm2.png'); -fx-background-size: stretch; -fx-translate-y: -25;" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="75.0" right="75.0" top="13.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <VBox fx:id="progressBar3" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" style="-fx-translate-y: 10;" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                              <VBox fx:id="progressBar3" alignment="BOTTOM_CENTER" prefHeight="640.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <VBox fx:id="bar3" prefHeight="341.0" prefWidth="39.0" style="-fx-background-image: url('player_worm3.png'); -fx-background-size: stretch;" />
+                                    <VBox fx:id="bar3" prefHeight="341.0" prefWidth="39.0" style="-fx-background-image: url('player_worm3.png'); -fx-background-size: stretch; -fx-translate-y: -25;" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="75.0" right="75.0" top="13.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <VBox fx:id="progressBar4" alignment="BOTTOM_RIGHT" prefHeight="640.0" prefWidth="50.0" style="-fx-translate-y: 10;" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                              <VBox fx:id="progressBar4" alignment="BOTTOM_RIGHT" prefHeight="640.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                                  <children>
-                                    <VBox fx:id="bar4" prefHeight="227.0" prefWidth="42.0" style="-fx-background-image: url('player_worm4.png'); -fx-background-size: stretch;" />
+                                    <VBox fx:id="bar4" prefHeight="227.0" prefWidth="42.0" style="-fx-background-image: url('player_worm4.png'); -fx-background-size: stretch; -fx-translate-y: -25;" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="75.0" right="75.0" top="13.0" />
