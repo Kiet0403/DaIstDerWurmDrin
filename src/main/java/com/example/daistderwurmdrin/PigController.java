@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -40,7 +41,6 @@ public class PigController{
     @FXML Button holdButton;
 
 
-
     @FXML VBox p1box;
     @FXML VBox p2box;
     @FXML VBox p3box;
@@ -56,6 +56,15 @@ public class PigController{
     @FXML Rectangle p3booster2;
     @FXML Rectangle p4booster1;
     @FXML Rectangle p4booster2;
+
+    @FXML ImageView p1booster1Image;
+    @FXML ImageView p1booster2Image;
+    @FXML ImageView p2booster1Image;
+    @FXML ImageView p2booster2Image;
+    @FXML ImageView p3booster1Image;
+    @FXML ImageView p3booster2Image;
+    @FXML ImageView p4booster1Image;
+    @FXML ImageView p4booster2Image;
 
     @FXML Rectangle checkpoint1_1;
     @FXML Rectangle checkpoint1_2;
@@ -138,6 +147,12 @@ public class PigController{
         bindCheckpoints();
     }
 
+    private void greyOutBoosterImage(ImageView boosterImage) {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setSaturation(-1); // Set saturation to -1 to grey out the image
+        boosterImage.setEffect(colorAdjust);
+    }
+
     private void showNotification(String currentPlayerName, String targetPlayerName, String checkpoint) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -214,6 +229,24 @@ public class PigController{
             placeBooster(targetPlayerIndex, checkpoint);
             selectedBooster.setStroke(null);
             selectedBooster = null;
+
+            if (selectedBooster == p1booster1) {
+                greyOutBoosterImage(p1booster1Image);
+            } else if (selectedBooster == p1booster2) {
+                greyOutBoosterImage(p1booster2Image);
+            } else if (selectedBooster == p2booster1) {
+                greyOutBoosterImage(p2booster1Image);
+            } else if (selectedBooster == p2booster2) {
+                greyOutBoosterImage(p2booster2Image);
+            } else if (selectedBooster == p3booster1) {
+                greyOutBoosterImage(p3booster1Image);
+            } else if (selectedBooster == p3booster2) {
+                greyOutBoosterImage(p3booster2Image);
+            } else if (selectedBooster == p4booster1) {
+                greyOutBoosterImage(p4booster1Image);
+            } else if (selectedBooster == p4booster2) {
+                greyOutBoosterImage(p4booster2Image);
+            }
 
             // Disable boosters if the current player is a bot
             disableBotBoosters();
